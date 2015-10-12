@@ -13,11 +13,7 @@ class ValueProxy {
         values = document._values[part];
 
         if (!values) {
-          if (property.type === 'array') {
-            values = document._values[part] = [];
-          } else {
-            values = document._values[part] = Object.create(null);
-          }
+          values = document._values[part] = property.buildDefaultValue();
         }
       }
     } while (parts.length > 0);

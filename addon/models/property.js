@@ -16,4 +16,13 @@ export default class Property {
   get properties() {
     return getProperties(this, this._property.properties);
   }
+
+  buildDefaultValue() {
+    switch (this._property.type) {
+    case 'object': return Object.create(null);
+    case 'array': return [];
+    default:
+      throw new Error(`Cannot build default value for '${this._property.type}'.`);
+    }
+  }
 }

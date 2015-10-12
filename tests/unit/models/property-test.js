@@ -52,4 +52,32 @@ test('accessing properties returns an instance of `Property` model', function(as
   assert.equal(property.properties.city.type, 'string');
 });
 
+test('can create a default value for an object', function(assert) {
+  assert.deepEqual(property.buildDefaultValue(), {}, 'defaultValue returns an object if property type is object');
+});
+
+test('can create a default value for an object', function(assert) {
+  property = new Property({
+    'id': 'http://jsonschema.net/address/streetAddress',
+    'type': 'array',
+    'items': {
+      type: 'object',
+      properties: { }
+    }
+  });
+
+  assert.deepEqual(property.buildDefaultValue(), [], 'defaultValue returns an array if property type is array');
+});
+
+test('throws when attempting to build default for non array/object types', function(assert) {
+  property = new Property({
+    'id': 'http://jsonschema.net/address/streetAddress',
+    'type': 'string'
+  });
+
+  assert.throws(() => {
+    property.buildDefaultValue();
+  }, /Cannot build default value for 'string'/);
+});
+
 skip('accessing properties for non-array and non-object property should throw a helpful error');
