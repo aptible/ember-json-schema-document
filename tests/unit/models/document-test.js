@@ -16,7 +16,13 @@ test('requires a schema', function(assert) {
   }, /You must provide a Schema instance to the Document constructor/);
 });
 
-test('can set a value for a property', function(assert) {
+test('can set a value for a root property', function(assert) {
+  this.document.set('description', 'awesome sauce');
+
+  assert.equal(this.document.get('description'), 'awesome sauce');
+});
+
+test('can set a value for a nested property', function(assert) {
   this.document.set('address.streetAddress', '123 Blah St.');
 
   assert.equal(this.document.get('address.streetAddress'), '123 Blah St.');

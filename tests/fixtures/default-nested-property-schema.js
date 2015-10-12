@@ -3,6 +3,10 @@ export default {
   'id': 'http://jsonschema.net',
   'type': 'object',
   'properties': {
+    'description': {
+      'id': 'http://jsonschema.net/description',
+      'type': 'string'
+    },
     'address': {
       'id': 'http://jsonschema.net/address',
       'type': 'object',

@@ -25,7 +25,7 @@ test('throws an error if schema is not provided to constructor', function(assert
 test('accessing properties returns a list of properties', function(assert) {
   let propertyKeys = Object.keys(schema.properties);
 
-  assert.deepEqual(['address', 'phoneNumber'], propertyKeys, 'known keys are present');
+  assert.deepEqual(['description', 'address', 'phoneNumber'], propertyKeys, 'known keys are present');
 });
 
 test('accessing properties returns an instance of `Property` model', function(assert) {
