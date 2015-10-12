@@ -27,6 +27,10 @@ class ValueProxy {
     this._valuePath = valuePath;
   }
 
+  get valueType() {
+    return this._property.type;
+  }
+
   set value(newValue) {
     if (!this._property) {
       throw new Error('You may not set a nonexistant field.');
@@ -77,7 +81,13 @@ export default class Document {
   }
 
   addItem(propertyPath, value) {
+    let proxy = this._valueProxyFor(propertyPath);
 
+    if (proxy.valueType !== 'array') {
+      throw new Error('You can only call `addItem` on properties of type `array`.');
+    }
+
+    proxy.value.push(value);
   }
 
   getItem(propertyPath, index) {

@@ -50,6 +50,17 @@ test('toJSON returns a object with values that were set', function(assert) {
   });
 });
 
+test('calling addItem on a non-array throws', function(assert) {
+  let numberInstance = {
+    location: 'home',
+    code: '8675309'
+  };
+
+  assert.throws(() => {
+    this.document.addItem('address', numberInstance);
+  }, /You can only call `addItem` on properties of type `array`./);
+});
+
 test('can add items to an array field', function(assert) {
   let numberInstance = {
     location: 'home',
