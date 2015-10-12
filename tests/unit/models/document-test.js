@@ -2,6 +2,7 @@ import Schema from 'ember-json-schema/models/schema';
 import Document from 'ember-json-schema/models/document';
 import { module, test, skip } from 'qunit';
 import schemaFixture from '../../fixtures/default-nested-property-schema';
+import arrayBaseObjectFixture from '../../fixtures/location-schema';
 
 module('models/document', {
   beforeEach() {
@@ -80,7 +81,25 @@ test('can add items to an array field', function(assert) {
   assert.deepEqual(result, numberInstance);
 });
 
+test('add array as base object type', function(assert) {
+  this.schema = new Schema(arrayBaseObjectFixture);
+  this.document = this.schema.buildDocument();
+
+  let locationInstance = {
+    'description': 'stuff here',
+    'streetAddress': 'unknown st',
+    'city': 'hope',
+    'state': 'ri',
+    'zip': '02831'
+  };
+
+  this.document.addItem(locationInstance);
+
+  let result = this.document.toJSON();
+
+  assert.deepEqual(result, [locationInstance]);
+});
+
 skip('throw an error if calling `toJSON` when required fields are not specified');
 skip('handle array properties (where you have many of a given item)');
 skip('add validations when setting property types');
-skip('add array as base object type');

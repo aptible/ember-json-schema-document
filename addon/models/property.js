@@ -1,4 +1,5 @@
 import getProperties from '../utils/get-properties';
+import buildDefaultValueForType from '../utils/build-default-value-for-type';
 
 export default class Property {
   constructor(property) {
@@ -18,11 +19,6 @@ export default class Property {
   }
 
   buildDefaultValue() {
-    switch (this._property.type) {
-    case 'object': return Object.create(null);
-    case 'array': return [];
-    default:
-      return undefined;
-    }
+    return buildDefaultValueForType(this._property.type);
   }
 }

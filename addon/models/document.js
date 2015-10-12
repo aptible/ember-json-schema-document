@@ -1,3 +1,5 @@
+import buildDefaultValueForType from '../utils/build-default-value-for-type';
+
 class ValueProxy {
   static build(document, propertyPath) {
     let parts = propertyPath.split('.');
@@ -55,7 +57,8 @@ export default class Document {
     }
 
     this._schema = schema;
-    this._values = Object.create(null);
+    this._baseType = schema._schema.type;
+    this._values = buildDefaultValueForType(this._baseType);
     this._valueProxies = Object.create(null);
   }
 
@@ -81,13 +84,17 @@ export default class Document {
   }
 
   addItem(propertyPath, value) {
-    let proxy = this._valueProxyFor(propertyPath);
+    if (this._baseType === 'array') {
+      this._values.push(arguments[0]);
+    } else {
+      let proxy = this._valueProxyFor(propertyPath);
 
-    if (proxy.valueType !== 'array') {
-      throw new Error('You can only call `addItem` on properties of type `array`.');
+      if (proxy.valueType !== 'array') {
+        throw new Error('You can only call `addItem` on properties of type `array`.');
+      }
+
+      proxy.value.push(value);
     }
-
-    proxy.value.push(value);
   }
 
   getItem(propertyPath, index) {
