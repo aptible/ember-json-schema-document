@@ -1,6 +1,6 @@
-import Schema from 'little-bobby/models/schema';
-import Property from 'little-bobby/models/property';
-import Document from 'little-bobby/models/document';
+import Schema from 'ember-json-schema/models/schema';
+import Property from 'ember-json-schema/models/property';
+import Document from 'ember-json-schema/models/document';
 import { module, test } from 'qunit';
 import schemaFixture from '../../fixtures/default-nested-property-schema';
 

@@ -1,4 +1,4 @@
-import Property from 'little-bobby/models/property';
+import Property from 'ember-json-schema/models/property';
 import { module, test, skip } from 'qunit';
 
 export const propertyFixture = {

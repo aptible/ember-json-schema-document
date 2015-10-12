@@ -1,4 +1,4 @@
-# Little-bobby
+# ember-json-schema
 
 This README outlines the details of collaborating on this Ember addon.
 
