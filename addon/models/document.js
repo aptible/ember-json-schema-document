@@ -63,10 +63,6 @@ export default class Document {
     return this._schema.properties;
   }
 
-  _getValueObject(propertyPath) {
-
-  }
-
   set(propertyPath, value) {
     if (value === undefined) {
       throw new Error('You must provide a value as the second argument to `.set`');
