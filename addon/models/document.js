@@ -11,10 +11,10 @@ class ValueProxy {
 
       if (parts.length > 0) {
         values = document._values[part];
+      }
 
-        if (!values) {
-          values = document._values[part] = property.buildDefaultValue();
-        }
+      if (!values) {
+        values = document._values[part] = property.buildDefaultValue();
       }
     } while (parts.length > 0);
 
@@ -40,6 +40,10 @@ class ValueProxy {
   }
 
   get value() {
+    if (!(this._valuePath in this._values)) {
+      this.value = this._property.buildDefaultValue();
+    }
+
     return this._values[this._valuePath];
   }
 }

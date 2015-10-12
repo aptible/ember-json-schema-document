@@ -69,15 +69,13 @@ test('can create a default value for an object', function(assert) {
   assert.deepEqual(property.buildDefaultValue(), [], 'defaultValue returns an array if property type is array');
 });
 
-test('throws when attempting to build default for non array/object types', function(assert) {
+test('sets to undefined when attempting to build default for non array/object types', function(assert) {
   property = new Property({
     'id': 'http://jsonschema.net/address/streetAddress',
     'type': 'string'
   });
 
-  assert.throws(() => {
-    property.buildDefaultValue();
-  }, /Cannot build default value for 'string'/);
+  assert.equal(property.buildDefaultValue(), undefined, 'uses undefined for non array/object properties');
 });
 
 skip('accessing properties for non-array and non-object property should throw a helpful error');

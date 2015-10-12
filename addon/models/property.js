@@ -22,7 +22,7 @@ export default class Property {
     case 'object': return Object.create(null);
     case 'array': return [];
     default:
-      throw new Error(`Cannot build default value for '${this._property.type}'.`);
+      return undefined;
     }
   }
 }
