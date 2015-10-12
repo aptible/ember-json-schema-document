@@ -2,5 +2,5 @@
 'use strict';
 
 module.exports = {
-  name: 'little-bobby'
+  name: 'ember-json-schema'
 };
