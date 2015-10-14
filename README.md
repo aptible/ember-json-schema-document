@@ -36,6 +36,17 @@ document.toJSON();
 
 ```
 
+```
+let newItem = this.document.addItem();
+
+//
+{{#each properties as |property|}}
+  {{component (concat 'json-schema-' property.inputType) property=property document=document}}
+{{/each}}
+```
+
+// app/components/json-schema-input.js
+
 ## Installation
 
 * `git clone` this repository
