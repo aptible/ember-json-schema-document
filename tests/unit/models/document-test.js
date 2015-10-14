@@ -57,17 +57,6 @@ test('toJSON returns a object with values that were set', function(assert) {
   });
 });
 
-test('calling addItem on a non-array throws', function(assert) {
-  let numberInstance = {
-    location: 'home',
-    code: '8675309'
-  };
-
-  assert.throws(() => {
-    this.document.addItem('address', numberInstance);
-  }, /You can only call `addItem` on documents with a base object of `array`/);
-});
-
 test('add array as base object type using per-property syntax', function(assert) {
   this.schema = new Schema(arrayBaseObjectFixture);
   this.document = this.schema.buildDocument();

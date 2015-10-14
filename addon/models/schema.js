@@ -29,7 +29,7 @@ export default class Schema {
   }
 
   buildDocument(data) {
-    return new Document(this, this._schema.type, data);
+    return Document.build(this, this._schema.type, data);
   }
 
   _setupSchema(schema) {
