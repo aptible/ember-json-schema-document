@@ -92,7 +92,7 @@ export class ArrayDocument extends Document {
     return document;
   }
 
-  addItem(propertyPath, value) {
+  addItem() {
     if (this._baseType !== 'array') {
       throw new Error('You can only call `addItem` on documents with a base object of `array`.');
     }

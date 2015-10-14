@@ -1,5 +1,5 @@
 import Property from 'ember-json-schema/models/property';
-import { module, test, skip } from 'qunit';
+import { module, test } from 'qunit';
 
 export const propertyFixture = {
   'id': 'http://jsonschema.net/address',
