@@ -65,27 +65,14 @@ test('calling addItem on a non-array throws', function(assert) {
 
   assert.throws(() => {
     this.document.addItem('address', numberInstance);
-  }, /You can only call `addItem` on properties of type `array`./);
+  }, /You can only call `addItem` on documents with a base object of `array`/);
 });
 
-test('can add items to an array field', function(assert) {
-  let numberInstance = {
-    location: 'home',
-    code: '8675309'
-  };
-
-  this.document.addItem('phoneNumber', numberInstance);
-
-  let result = this.document.getItem('phoneNumber', 0);
-
-  assert.deepEqual(result, numberInstance);
-});
-
-test('add array as base object type', function(assert) {
+test('add array as base object type using per-property syntax', function(assert) {
   this.schema = new Schema(arrayBaseObjectFixture);
   this.document = this.schema.buildDocument();
 
-  let locationInstance = {
+  let expected = {
     'description': 'stuff here',
     'streetAddress': 'unknown st',
     'city': 'hope',
@@ -93,11 +80,51 @@ test('add array as base object type', function(assert) {
     'zip': '02831'
   };
 
-  this.document.addItem(locationInstance);
+  let item = this.document.addItem();
+  for (let key in expected) {
+    item.set(key, expected[key]);
+  }
 
   let result = this.document.toJSON();
 
-  assert.deepEqual(result, [locationInstance]);
+  assert.deepEqual(result, [expected]);
+});
+
+test('can add multiple items to an array based document using per-property syntax', function(assert) {
+  let item;
+
+  this.schema = new Schema(arrayBaseObjectFixture);
+  this.document = this.schema.buildDocument();
+
+  let expected1 = {
+    'description': 'stuff here',
+    'streetAddress': 'unknown st',
+    'city': 'hope',
+    'state': 'ri',
+    'zip': '02831'
+  };
+
+  let expected2 = {
+    'description': 'other stuff here',
+    'streetAddress': 'totally known st',
+    'city': 'hope',
+    'state': 'ri',
+    'zip': '02831'
+  };
+
+  item = this.document.addItem();
+  for (let key in expected1) {
+    item.set(key, expected1[key]);
+  }
+
+  item = this.document.addItem();
+  for (let key in expected2) {
+    item.set(key, expected2[key]);
+  }
+
+  let result = this.document.toJSON();
+
+  assert.deepEqual(result, [expected1, expected2]);
 });
 
 skip('throw an error if calling `toJSON` when required fields are not specified');

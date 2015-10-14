@@ -1,3 +1,4 @@
+import Schema from './schema';
 import buildDefaultValueForType from '../utils/build-default-value-for-type';
 
 class ValueProxy {
@@ -51,13 +52,13 @@ class ValueProxy {
 }
 
 export default class Document {
-  constructor(schema) {
+  constructor(schema, baseType) {
     if (!schema) {
       throw new Error('You must provide a Schema instance to the Document constructor.');
     }
 
     this._schema = schema;
-    this._baseType = schema._schema.type;
+    this._baseType = baseType;
     this._values = buildDefaultValueForType(this._baseType);
     this._valueProxies = Object.create(null);
   }
@@ -84,17 +85,17 @@ export default class Document {
   }
 
   addItem(propertyPath, value) {
-    if (this._baseType === 'array') {
-      this._values.push(arguments[0]);
-    } else {
-      let proxy = this._valueProxyFor(propertyPath);
-
-      if (proxy.valueType !== 'array') {
-        throw new Error('You can only call `addItem` on properties of type `array`.');
-      }
-
-      proxy.value.push(value);
+    if (this._baseType !== 'array') {
+      throw new Error('You can only call `addItem` on documents with a base object of `array`.');
     }
+
+    // TODO: handle array of arrays (WAT?)
+    let schema = new Schema(this._schema._schema.items);
+    let document = schema.buildDocument();
+
+    this._values.push(document._values);
+
+    return document;
   }
 
   getItem(propertyPath, index) {

@@ -20,21 +20,9 @@ var document = schema.buildDocument();
 
 document.set('some.deep.thing', 'asdfasdf');
 
-// style 1
 item = document.addItem();
 item.set('description', 'office thing');
 item.set('streetAddress', '123 Whatevs Lane');
-
-// style 2
-document.addItem({
-  description: 'office thing',
-  streetAddress: '123 Whatevs Lane',
-  city: 'Hope',
-  state: 'RI',
-  zip: '02831'
-});
-
-// ...snip...
 
 document.toJSON();
 
