@@ -77,5 +77,3 @@ test('sets to undefined when attempting to build default for non array/object ty
 
   assert.equal(property.buildDefaultValue(), undefined, 'uses undefined for non array/object properties');
 });
-
-skip('accessing properties for non-array and non-object property should throw a helpful error');
