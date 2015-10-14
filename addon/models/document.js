@@ -78,24 +78,39 @@ export default class Document {
 }
 
 export class ArrayDocument extends Document {
+  constructor() {
+    super(...arguments);
+
+    this._documents = [];
+  }
+
+  _buildDocumentInstance() {
+    // TODO: handle array of arrays (WAT?)
+    let schema = new Schema(this._schema._schema.items);
+    let document = schema.buildDocument();
+
+    return document;
+  }
+
   addItem(propertyPath, value) {
     if (this._baseType !== 'array') {
       throw new Error('You can only call `addItem` on documents with a base object of `array`.');
     }
 
-    // TODO: handle array of arrays (WAT?)
-    let schema = new Schema(this._schema._schema.items);
-    let document = schema.buildDocument();
+    let document = this._buildDocumentInstance();
 
     this._values.push(document._values);
+    this._documents.push(document);
 
     return document;
   }
 
-  getItem(propertyPath, index) {
-    let array = this.get(propertyPath) || [];
+  getItem(index) {
+    return this._documents[index];
+  }
 
-    return array[index];
+  allItems() {
+    return this._documents.slice();
   }
 }
 

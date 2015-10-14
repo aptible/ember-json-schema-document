@@ -116,6 +116,51 @@ test('can add multiple items to an array based document using per-property synta
   assert.deepEqual(result, [expected1, expected2]);
 });
 
+test('can access the backing document for array items after initial creation', function(assert) {
+  this.schema = new Schema(arrayBaseObjectFixture);
+  this.document = this.schema.buildDocument();
+
+  let item1 = this.document.addItem();
+  let item2 = this.document.getItem(0);
+
+  assert.equal(item1, item2, 'items added with addItem can be retrieved');
+});
+
+test('can access all items after creation', function(assert) {
+  this.schema = new Schema(arrayBaseObjectFixture);
+  this.document = this.schema.buildDocument();
+
+  let expected1 = {
+    'description': 'stuff here',
+    'streetAddress': 'unknown st',
+    'city': 'hope',
+    'state': 'ri',
+    'zip': '02831'
+  };
+
+  let expected2 = {
+    'description': 'other stuff here',
+    'streetAddress': 'totally known st',
+    'city': 'hope',
+    'state': 'ri',
+    'zip': '02831'
+  };
+
+  let item1 = this.document.addItem();
+  for (let key in expected1) {
+    item1.set(key, expected1[key]);
+  }
+
+  let item2 = this.document.addItem();
+  for (let key in expected2) {
+    item2.set(key, expected2[key]);
+  }
+
+  let result = this.document.allItems();
+
+  assert.deepEqual(result, [item1, item2]);
+});
+
 skip('throw an error if calling `toJSON` when required fields are not specified');
 skip('handle array properties (where you have many of a given item)');
 skip('add validations when setting property types');
