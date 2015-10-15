@@ -1,3 +1,4 @@
+import Schema from './schema';
 import buildDefaultValueForType from '../utils/build-default-value-for-type';
 
 class ValueProxy {
@@ -51,14 +52,72 @@ class ValueProxy {
 }
 
 export default class Document {
-  constructor(schema) {
+  static build(schema, baseType) {
+    if (baseType === 'array') {
+      return new ArrayDocument(...arguments);
+    } else if (baseType === 'object') {
+      return new ObjectDocument(...arguments);
+    } else {
+      throw new Error('What are you doing here?');
+    }
+  }
+
+  constructor(schema, baseType) {
     if (!schema) {
       throw new Error('You must provide a Schema instance to the Document constructor.');
     }
 
     this._schema = schema;
-    this._baseType = schema._schema.type;
+    this._baseType = baseType;
     this._values = buildDefaultValueForType(this._baseType);
+  }
+
+  toJSON() {
+    return this._values;
+  }
+}
+
+export class ArrayDocument extends Document {
+  constructor() {
+    super(...arguments);
+
+    this._documents = [];
+  }
+
+  _buildDocumentInstance() {
+    // TODO: handle array of arrays (WAT?)
+    let schema = new Schema(this._schema._schema.items);
+    let document = schema.buildDocument();
+
+    return document;
+  }
+
+  addItem() {
+    if (this._baseType !== 'array') {
+      throw new Error('You can only call `addItem` on documents with a base object of `array`.');
+    }
+
+    let document = this._buildDocumentInstance();
+
+    this._values.push(document._values);
+    this._documents.push(document);
+
+    return document;
+  }
+
+  getItem(index) {
+    return this._documents[index];
+  }
+
+  allItems() {
+    return this._documents.slice();
+  }
+}
+
+export class ObjectDocument extends Document {
+  constructor() {
+    super(...arguments);
+
     this._valueProxies = Object.create(null);
   }
 
@@ -81,29 +140,5 @@ export default class Document {
 
   get(propertyPath) {
     return this._valueProxyFor(propertyPath).value;
-  }
-
-  addItem(propertyPath, value) {
-    if (this._baseType === 'array') {
-      this._values.push(arguments[0]);
-    } else {
-      let proxy = this._valueProxyFor(propertyPath);
-
-      if (proxy.valueType !== 'array') {
-        throw new Error('You can only call `addItem` on properties of type `array`.');
-      }
-
-      proxy.value.push(value);
-    }
-  }
-
-  getItem(propertyPath, index) {
-    let array = this.get(propertyPath) || [];
-
-    return array[index];
-  }
-
-  toJSON() {
-    return this._values;
   }
 }

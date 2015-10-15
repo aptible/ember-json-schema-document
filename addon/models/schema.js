@@ -19,11 +19,17 @@ export default class Schema {
   }
 
   get properties() {
+    // TODO: throw an error if called on an array base type
     return getProperties(this, this._schema.properties);
   }
 
+  get itemProperties() {
+    // TODO: throw an error if called on an object base type
+    return getProperties(this, this._schema.items.properties);
+  }
+
   buildDocument(data) {
-    return new Document(this, data);
+    return Document.build(this, this._schema.type, data);
   }
 
   _setupSchema(schema) {

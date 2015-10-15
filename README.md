@@ -20,21 +20,9 @@ var document = schema.buildDocument();
 
 document.set('some.deep.thing', 'asdfasdf');
 
-// style 1
 item = document.addItem();
 item.set('description', 'office thing');
 item.set('streetAddress', '123 Whatevs Lane');
-
-// style 2
-document.addItem({
-  description: 'office thing',
-  streetAddress: '123 Whatevs Lane',
-  city: 'Hope',
-  state: 'RI',
-  zip: '02831'
-});
-
-// ...snip...
 
 document.toJSON();
 
@@ -47,6 +35,17 @@ document.toJSON();
 }]
 
 ```
+
+```
+let newItem = this.document.addItem();
+
+//
+{{#each properties as |property|}}
+  {{component (concat 'json-schema-' property.inputType) property=property document=document}}
+{{/each}}
+```
+
+// app/components/json-schema-input.js
 
 ## Installation
 

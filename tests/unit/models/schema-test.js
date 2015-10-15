@@ -3,6 +3,7 @@ import Property from 'ember-json-schema/models/property';
 import Document from 'ember-json-schema/models/document';
 import { module, test } from 'qunit';
 import schemaFixture from '../../fixtures/default-nested-property-schema';
+import arraySchemaFixture from '../../fixtures/location-schema';
 
 let schema;
 module('models/schema', {
@@ -40,4 +41,12 @@ test('can build a new document using this schema', function(assert) {
   let doc = schema.buildDocument();
 
   assert.ok(doc instanceof Document, 'buildDocument returns an instance of Document model');
+});
+
+test('itemProperties returns a list of properties', function(assert) {
+  let arraySchema = new Schema(arraySchemaFixture);
+  let propertyKeys = Object.keys(arraySchema.itemProperties);
+
+  assert.deepEqual(['description', 'streetAddress', 'city', 'state', 'zip'],
+                   propertyKeys, 'known keys are present');
 });
