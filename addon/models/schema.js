@@ -25,7 +25,7 @@ export default class Schema {
 
   get itemProperties() {
     // TODO: throw an error if called on an object base type
-    return getProperties(this, this._schema.items);
+    return getProperties(this, this._schema.items.properties);
   }
 
   buildDocument(data) {
