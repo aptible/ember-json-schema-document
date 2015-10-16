@@ -1,0 +1,11 @@
+<div class="form-group">
+  {{#if property.title}}
+    <label for="{{property.key}}">{{property.title}}</label>
+  {{/if}}
+
+  {{input type="text"
+    name=property.key
+    value=value
+    autofocus=true
+    class="form-control"}}
+</div>

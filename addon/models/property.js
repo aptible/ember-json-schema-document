@@ -32,7 +32,6 @@ export default class Property {
         return 'number';
       case 'integer':
         return 'number';
-
     }
   }
 

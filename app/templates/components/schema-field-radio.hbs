@@ -1,0 +1,17 @@
+<div class="form-group">
+  {{#if property.title}}
+    <label for="{{property.key}}">{{property.title}}</label>
+  {{/if}}
+  <div class="radio">
+    <div>
+      {{#radio-button value=false groupValue=value name=property.key}}
+        False
+      {{/radio-button}}
+    </div>
+    <div>
+      {{#radio-button value=true groupValue=value name=property.key}}
+        True
+      {{/radio-button}}
+    </div>
+  </div>
+</div>
