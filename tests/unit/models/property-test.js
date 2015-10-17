@@ -1,4 +1,5 @@
 import Property from 'ember-json-schema/models/property';
+
 import { module, test } from 'qunit';
 
 export const propertyFixture = {
@@ -76,4 +77,13 @@ test('sets to undefined when attempting to build default for non array/object ty
   });
 
   assert.equal(property.buildDefaultValue(), undefined, 'uses undefined for non array/object properties');
+});
+
+test('calling .properties when none exist returns null', function(assert) {
+  property = new Property({
+    'id': 'http://jsonschema.net/address/streetAddress',
+    'type': 'string'
+  });
+
+  assert.notOk(property.properties, 'returns falsey value when nested properties do not exist');
 });
