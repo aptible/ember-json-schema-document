@@ -22,6 +22,10 @@ export default class Property {
     return null;
   }
 
+  get validValues() {
+    return this._property.enum;
+  }
+
   buildDefaultValue() {
     return buildDefaultValueForType(this._property.type);
   }

@@ -87,3 +87,14 @@ test('calling .properties when none exist returns null', function(assert) {
 
   assert.notOk(property.properties, 'returns falsey value when nested properties do not exist');
 });
+
+test('exposes `enum` property as `validValues`', function(assert) {
+  let values = [ 'foo', 'bar', 1, 2, 3];
+
+  property = new Property({
+    'type': 'string',
+    'enum': values.slice()
+  });
+
+  assert.deepEqual(property.validValues, values, 'listed enum was available as `validValues`');
+});
