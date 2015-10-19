@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import Schema from './schema';
 import buildDefaultValueForType from '../utils/build-default-value-for-type';
 
@@ -21,10 +22,12 @@ class ValueProxy {
       }
     } while (parts.length > 0);
 
-    return new ValueProxy(property, values, part);
+    return new ValueProxy(document, propertyPath, property, values, part);
   }
 
-  constructor(property, values, valuePath) {
+  constructor(document, propertyPath, property, values, valuePath) {
+    this._document = document;
+    this._propertyPath = propertyPath;
     this._property = property;
     this._values = values;
     this._valuePath = valuePath;
@@ -39,7 +42,9 @@ class ValueProxy {
       throw new Error('You may not set a nonexistant field.');
     }
 
-    this._values[this._valuePath] = newValue;
+    Ember.run(() => {
+      Ember.set(this._values, this._valuePath, newValue);
+    });
   }
 
   get value() {
@@ -81,7 +86,7 @@ export class ArrayDocument extends Document {
   constructor() {
     super(...arguments);
 
-    this._documents = [];
+    this._documents = Ember.A();
   }
 
   _buildDocumentInstance() {
@@ -99,8 +104,10 @@ export class ArrayDocument extends Document {
 
     let document = this._buildDocumentInstance();
 
-    this._values.push(document._values);
-    this._documents.push(document);
+    Ember.run(() => {
+      this._values.pushObject(document._values);
+      this._documents.pushObject(document);
+    });
 
     return document;
   }
@@ -111,6 +118,10 @@ export class ArrayDocument extends Document {
 
   allItems() {
     return this._documents.slice();
+  }
+
+  get values() {
+    return this._documents;
   }
 }
 
@@ -127,6 +138,10 @@ export class ObjectDocument extends Document {
 
   get properties() {
     return this._schema.properties;
+  }
+
+  get values() {
+    return this._values;
   }
 
   set(propertyPath, value) {
