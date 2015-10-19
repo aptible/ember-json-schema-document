@@ -31,14 +31,14 @@ export default class Property {
   }
 
   isValid(object) {
-    let { properties } = this;
+    let { required, properties, validValues } = this;
 
-    for (let i = 0, l = this.required.length; i < l; i++) {
-      let required = this.required[i];
-      let value = object && object[required];
+    for (let i = 0, l = required.length; i < l; i++) {
+      let requiredPropertyName = required[i];
+      let value = object && object[requiredPropertyName];
 
       // handles nested properties
-      if (properties[required] && !properties[required].isValid(value)) {
+      if (properties[requiredPropertyName] && !properties[requiredPropertyName].isValid(value)) {
         return false;
       }
 
@@ -46,6 +46,11 @@ export default class Property {
       if (!value) {
         return false;
       }
+    }
+
+    // handles validValues / enum
+    if (validValues && validValues.indexOf(object) === -1) {
+      return false;
     }
 
     return true;

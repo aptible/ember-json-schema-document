@@ -30,8 +30,18 @@ const personWithNestedRequirements = {
       type: 'object',
       properties: {
         city: { type: 'string' },
-        state: { type: 'string' },
-        zip: { type: 'string' }
+        zip: { type: 'string' },
+        state: {
+          type: 'string',
+          enum: [
+            'RI',
+            'NY',
+            'IN',
+            'CA',
+            'UT',
+            'CO'
+          ]
+        }
       },
       required: [
         'city',
@@ -119,4 +129,20 @@ test('it is valid if required nested sub-properties exist are satisfied', functi
   };
 
   assert.ok(property.isValid(person), 'is valid when nested properties are satisfied');
+});
+
+test('it is invalid if required nested sub-properties do not match enum', function(assert) {
+  let property = new Property(personWithNestedRequirements);
+
+  let person = {
+    last: 'Jackson',
+    first: 'Max',
+    address: {
+      city: 'Ocala',
+      state: 'FL',
+      zip: '34471'
+    }
+  };
+
+  assert.notOk(property.isValid(person), 'is invalid when value is not in enum');
 });
