@@ -161,6 +161,13 @@ test('can access all items after creation', function(assert) {
   assert.deepEqual(result, [item1, item2]);
 });
 
+test('can get a list of validValues for a property', function(assert) {
+  let expectedValues = schemaFixture.properties.address.properties.state.enum;
+
+  assert.deepEqual(this.document.properties.address.properties.state.validValues, expectedValues);
+  assert.deepEqual(this.document.validValuesFor('address.state'), expectedValues);
+});
+
 skip('throw an error if calling `toJSON` when required fields are not specified');
 skip('handle array properties (where you have many of a given item)');
 skip('add validations when setting property types');
