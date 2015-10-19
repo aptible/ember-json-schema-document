@@ -18,6 +18,18 @@ export default {
         'city': {
           'id': 'http://jsonschema.net/address/city',
           'type': 'string'
+        },
+        'state': {
+          id: 'http://jsonschema.net/address/state',
+          type: 'string',
+          enum: [
+            'RI',
+            'NY',
+            'IN',
+            'CA',
+            'UT',
+            'CO'
+          ]
         }
       },
       'required': [

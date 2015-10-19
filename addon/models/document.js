@@ -141,4 +141,8 @@ export class ObjectDocument extends Document {
   get(propertyPath) {
     return this._valueProxyFor(propertyPath).value;
   }
+
+  validValuesFor(propertyPath) {
+    return this._valueProxyFor(propertyPath)._property.validValues;
+  }
 }
