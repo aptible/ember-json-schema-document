@@ -166,6 +166,13 @@ test('can get a list of validValues for a property', function(assert) {
 
   assert.deepEqual(this.document.properties.address.properties.state.validValues, expectedValues);
   assert.deepEqual(this.document.validValuesFor('address.state'), expectedValues);
+
+});
+
+test('exposes underlying values in `.values`', function(assert) {
+  this.document.set('description', 'awesome sauce');
+
+  assert.equal(this.document.values.description, 'awesome sauce');
 });
 
 skip('throw an error if calling `toJSON` when required fields are not specified');
