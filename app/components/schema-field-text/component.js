@@ -1,19 +1,21 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  setup: function() {
-    let key = this.get('property.key');
+  init() {
+    this._super(...arguments);
+
+    let key = this.get('key');
     let document = this.get('document');
     let defaultValue = this.get('property.default');
-    let initialValue = Ember.get(document, key) || defaultValue || '';
+    let initialValue = document.get(key) || defaultValue || '';
 
     this.set('value', initialValue);
-  }.on('init'),
+  },
 
-  setValue: function() {
+  setValue: Ember.observer('value', function() {
     let document = this.get('document');
-    let key = this.get('property.key');
+    let key = this.get('key');
 
-    Ember.set(document, key, this.get('value'));
-  }.observes('value')
+    document.set(key, this.get('value'));
+  })
 });

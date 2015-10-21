@@ -102,9 +102,4 @@ test('exposes `enum` property as `validValues`', function(assert) {
   });
 
   assert.deepEqual(property.validValues, values, 'listed enum was available as `validValues`');
-
-test('inputType returns the correct type of element', function(assert) {
-  assert.equal(property.properties.streetAddress.inputType, 'text');
-  assert.equal(property.properties.city.inputType, 'text');
-  assert.equal(property.properties.state.inputType, 'select');
 });

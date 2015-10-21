@@ -1,25 +1,25 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  options: Ember.computed('property', function() {
-    return this.get('property._property.enum')
-  }),
+  init() {
+    this._super(...arguments);
 
-  selected: Ember.computed('document', function() {
-    let key = this.get('property.key');
+    let key = this.get('key');
     let document = this.get('document');
+    let defaultValue = this.get('property.default');
+    let initialValue = document.get(key) || defaultValue || '';
 
-    return Ember.get(document, key);
-  }),
+    this.set('value', initialValue);
+  },
 
   actions: {
     update: function() {
       let value = this.$('select').val();
       let document = this.get('document');
-      let key = this.get('property.key');
+      let key = this.get('key');
 
-      Ember.set(document, key, value);
-      this.attrs.update(value);
+      document.set(key, value);
+      this.set('value', value);
     }
   }
 });
