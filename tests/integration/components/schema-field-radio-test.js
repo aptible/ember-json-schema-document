@@ -3,7 +3,7 @@ import Schema from 'ember-json-schema/models/schema';
 import hbs from 'htmlbars-inline-precompile';
 
 let isDeveloperProperty = {
-  'id': 'http://jsonschema.net/0/state',
+  'id': 'http://jsonschema.net/0/is-developer',
   'title': 'Is Developer',
   'type': 'boolean',
   'default': false

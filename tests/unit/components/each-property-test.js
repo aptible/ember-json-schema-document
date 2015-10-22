@@ -1,8 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent('each-property', {
-  // specify the other units that are required for this test
-  // needs: ['component:foo', 'helper:bar']
 });
 
 test('it renders', function(assert) {
