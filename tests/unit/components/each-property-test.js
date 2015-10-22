@@ -1,6 +1,7 @@
 import { moduleForComponent, test } from 'ember-qunit';
 
 moduleForComponent('each-property', {
+  unit: true
 });
 
 test('it renders', function(assert) {

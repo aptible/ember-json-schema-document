@@ -15,6 +15,8 @@ export function getPropertyInputType(property) {
     case 'integer':
       return 'number';
   }
+
+  return 'text';
 }
 
 export default Ember.Component.extend({
@@ -24,7 +26,9 @@ export default Ember.Component.extend({
 
     return propertyKeys.map((key) => {
       let property = propertyHash[key];
-      return { key: key, property: property, type: getPropertyInputType(property) }
+
+      return { key, property, type: getPropertyInputType(property),
+               childProperties: property.properties }
     });
   })
 });
