@@ -26,7 +26,7 @@ export default {
         'id': 'http://jsonschema.net/0/state',
         'title': 'State',
         'type': 'string',
-        enum: ['RI', 'NY', 'IN', 'CA', 'UT', 'CO'],
+        'enum': ['RI', 'NY', 'IN', 'CA', 'UT', 'CO'],
         'default': 'NY'
       },
       'zip': {

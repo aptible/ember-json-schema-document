@@ -103,3 +103,14 @@ test('exposes `enum` property as `validValues`', function(assert) {
 
   assert.deepEqual(property.validValues, values, 'listed enum was available as `validValues`');
 });
+
+test('exposes `default` and `title` properties', function(assert) {
+  property = new Property({
+    'type': 'string',
+    'default': 'Turd Ferguson',
+    'title': 'Contestant Name'
+  });
+
+  assert.equal(property.default, 'Turd Ferguson', 'default returns default value');
+  assert.equal(property.title, 'Contestant Name', 'title returns property title');
+});
