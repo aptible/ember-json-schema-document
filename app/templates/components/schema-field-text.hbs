@@ -3,9 +3,11 @@
     <label for="{{key}}">{{property.title}}</label>
   {{/if}}
 
-  {{input type="text"
-    name=key
+  {{one-way-input
     value=value
+    update=(action "update")
     autofocus=true
-    class="form-control"}}
+    name=key
+    class="form-control"
+  }}
 </div>
