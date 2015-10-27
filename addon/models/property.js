@@ -22,6 +22,10 @@ export default class Property {
     return this._property.default;
   }
 
+  get placeholder() {
+    return this._property.placeholder;
+  }
+
   get properties() {
     if (this._property.properties) {
       return getProperties(this, this._property.properties);
