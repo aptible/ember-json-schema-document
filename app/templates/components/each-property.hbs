@@ -1,0 +1,9 @@
+{{#each propertyCollection as |property|}}
+  {{#if property.childProperties}}
+    {{#each-property properties=property.childProperties as |childKey childProperty childType|}}
+      {{yield (concat (concat property.key '.') childKey) childProperty childType}}
+    {{/each-property}}
+  {{else}}
+    {{yield property.key property.property property.type}}
+  {{/if}}
+{{/each}}

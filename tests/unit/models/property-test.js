@@ -13,6 +13,11 @@ export const propertyFixture = {
     'city': {
       'id': 'http://jsonschema.net/address/city',
       'type': 'string'
+    },
+    'state': {
+      'id': 'http://jsonschema.net/address/city',
+      'type': 'string',
+      'enum': ['NY', 'IN']
     }
   },
   'required': [
@@ -42,7 +47,7 @@ test('throws an error if schema is not provided to constructor', function(assert
 test('accessing properties returns a list of properties', function(assert) {
   let propertyKeys = Object.keys(property.properties);
 
-  assert.deepEqual(['streetAddress', 'city'], propertyKeys, 'known keys are present');
+  assert.deepEqual(['streetAddress', 'city', 'state'], propertyKeys, 'known keys are present');
 });
 
 test('accessing properties returns an instance of `Property` model', function(assert) {
@@ -97,4 +102,17 @@ test('exposes `enum` property as `validValues`', function(assert) {
   });
 
   assert.deepEqual(property.validValues, values, 'listed enum was available as `validValues`');
+});
+
+test('exposes `default`, `title`, and `placeholder` properties', function(assert) {
+  property = new Property({
+    'type': 'string',
+    'default': 'Turd Ferguson',
+    'title': 'Contestant Name',
+    'placeholder': 'e.g. Sean Connery'
+  });
+
+  assert.equal(property.placeholder, 'e.g. Sean Connery', 'placeholder returns placeholder');
+  assert.equal(property.default, 'Turd Ferguson', 'default returns default value');
+  assert.equal(property.title, 'Contestant Name', 'title returns property title');
 });

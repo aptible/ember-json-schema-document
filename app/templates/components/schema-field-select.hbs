@@ -1,0 +1,15 @@
+<div class="form-group">
+  {{#if property.title}}
+    <label for="{{key}}">{{property.title}}</label>
+  {{/if}}
+
+  <select name="{{key}}" {{action 'update' on="change"}} class="form-control">
+    {{#if prompt}}
+      <option disabled selected={{if (not value) true null}}>{{prompt}}</option>
+    {{/if}}
+
+    {{#each property.validValues as |option|}}
+      <option selected={{if (eq value option) true null}} value={{option}}>{{option}}</option>
+    {{/each}}
+  </select>
+</div>
