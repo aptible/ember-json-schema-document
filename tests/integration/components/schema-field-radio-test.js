@@ -76,13 +76,12 @@ moduleForComponent('schema-field-radio', {
 
 // Test group 1: Adding item to array-base document
 
-test('Array document: has a label and a radio elements', function(assert) {
+test('Array document: has a radio elements', function(assert) {
   let newItem = this.arrayDocument.addItem();
 
   this.setProperties({ key: this.key, property: this.arrayProperty, newItem });
   this.render(hbs('{{schema-field-radio key=key property=property document=newItem}}'));
 
-  assert.equal(this.$('label:first').text(), 'Is Developer', 'label is correct');
   assert.equal(this.$('input[type="radio"][name="developer"]').length, 2, 'has two radio buttons');
 });
 

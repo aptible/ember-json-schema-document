@@ -22,6 +22,14 @@ export default class Property {
     return this._property.default;
   }
 
+  get prompt() {
+    return this._property.prompt;
+  }
+
+  get description() {
+    return this._property.description;
+  }
+
   get placeholder() {
     return this._property.placeholder;
   }

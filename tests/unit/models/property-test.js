@@ -109,10 +109,14 @@ test('exposes `default`, `title`, and `placeholder` properties', function(assert
     'type': 'string',
     'default': 'Turd Ferguson',
     'title': 'Contestant Name',
-    'placeholder': 'e.g. Sean Connery'
+    'placeholder': 'e.g. Sean Connery',
+    'prompt': 'Select a contestant',
+    'description': 'Which contestant is your favorite?'
   });
 
   assert.equal(property.placeholder, 'e.g. Sean Connery', 'placeholder returns placeholder');
   assert.equal(property.default, 'Turd Ferguson', 'default returns default value');
   assert.equal(property.title, 'Contestant Name', 'title returns property title');
+  assert.equal(property.description, 'Which contestant is your favorite?', 'title returns property description');
+  assert.equal(property.prompt, 'Select a contestant', 'title returns property prompt');
 });

@@ -77,13 +77,12 @@ moduleForComponent('schema-field-select', {
 
 // Test group 1: Adding item to array-base document
 
-test('Array document: has a label and a select element', function(assert) {
+test('Array document: has a select element with options', function(assert) {
   let newItem = this.arrayDocument.addItem();
 
   this.setProperties({ key: this.key, property: this.arrayProperty, newItem });
   this.render(hbs('{{schema-field-select key=key property=property document=newItem}}'));
 
-  assert.equal(this.$('label:first').text(), 'State', 'label is correct');
   assert.equal(this.$('select[name="state"]').length, 1, 'has a select element');
   assert.equal(this.$('select option').length, 6, 'has all 6 options');
 });
@@ -130,12 +129,11 @@ test('Array document: updates document when changed', function(assert) {
 
 // Test group 2: Root property in object-base document
 
-test('Object document root property: has a label and a select element', function(assert) {
+test('Object document root property: has a select element with options', function(assert) {
   this.setProperties({ key: this.key, property: this.objectProperty,
                        document: this.objectDocument });
   this.render(hbs('{{schema-field-select key=key property=property document=document}}'));
 
-  assert.equal(this.$('label:first').text(), 'State', 'label is correct');
   assert.equal(this.$('select[name="state"]').length, 1, 'has a select element');
   assert.equal(this.$('select option').length, 6, 'has all 6 options');
 });
@@ -182,12 +180,11 @@ test('Object document root property: updates document when changed', function(as
 
 // Test group 3: Nested property in object-base document
 
-test('Object document nested property: has a label and a select element', function(assert) {
+test('Object document nested property: has a select element with options', function(assert) {
   this.setProperties({ key: this.nestedKey, property: this.nestedProperty,
                        document: this.objectDocument });
   this.render(hbs('{{schema-field-select key=key property=property document=document}}'));
 
-  assert.equal(this.$('label:first').text(), 'State', 'label is correct');
   assert.equal(this.$('select[name="address.state"]').length, 1, 'has a select element');
   assert.equal(this.$('select option').length, 6, 'has all 6 options');
 });
