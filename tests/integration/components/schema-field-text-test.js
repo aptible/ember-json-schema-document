@@ -14,6 +14,7 @@ let arraySchema = {
         'id': 'http://jsonschema.net/0/description',
         'title': 'Description',
         'default': 'Headquarters',
+        'placeholder': 'e.g. Headquarters',
         'type': 'string'
       }
     },
@@ -84,14 +85,17 @@ moduleForComponent('schema-field-text', {
 
 // Test group 1: Adding item to array-base document
 
-test('Array document: has a label and text field', function(assert) {
+test('Array document: has a text field with a placeholder', function(assert) {
   let newItem = this.arrayDocument.addItem();
 
   this.setProperties({ key: this.key, property: this.arrayProperty, newItem });
   this.render(hbs('{{schema-field-text key=key property=property document=newItem}}'));
 
-  assert.equal(this.$('label:first').text(), 'Description');
-  assert.ok(this.$('input[name="description"][type="text"]').length, 'has a text field');
+  assert.ok(this.$('input[name="description"][type="text"]').length,
+            'has a text field');
+  assert.equal(this.$('input[name="description"][type="text"]:first').attr('placeholder'),
+              'e.g. Headquarters',
+              'has a placeholder');
 });
 
 test('Array document: uses existing document value if present', function(assert) {
@@ -131,12 +135,11 @@ test('Array document: updates document when changed', function(assert) {
 
 // Test group 2: Root property in object-base document
 
-test('Object document: has a label and text field', function(assert) {
+test('Object document: has a text field', function(assert) {
   this.setProperties({ key: this.key, property: this.objectProperty,
                        document: this.objectDocument });
   this.render(hbs('{{schema-field-text key=key property=property document=document}}'));
 
-  assert.equal(this.$('label:first').text(), 'Description');
   assert.ok(this.$('input[name="description"][type="text"]').length, 'has a text field');
 });
 
@@ -177,12 +180,11 @@ test('Object document: updates document when changed', function(assert) {
 
 // Test group 3: Nested property in object-base document
 
-test('Object document nested property: has a label and text field', function(assert) {
+test('Object document nested property: has a text field', function(assert) {
   this.setProperties({ key: this.nestedKey, property: this.nestedProperty,
                        document: this.objectDocument });
   this.render(hbs('{{schema-field-text key=key property=property document=document}}'));
 
-  assert.equal(this.$('label:first').text(), 'City');
   assert.ok(this.$('input[name="address.city"][type="text"]').length, 'has a text field');
 });
 

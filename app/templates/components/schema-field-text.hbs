@@ -1,14 +1,8 @@
-<div class="form-group">
-  {{#if property.title}}
-    <label for="{{key}}">{{property.title}}</label>
-  {{/if}}
-
-  {{one-way-input
-    value=value
-    update=(action "update")
-    autofocus=true
-    name=key
-    placeholder=property.placeholder
-    class="form-control"
-  }}
-</div>
+{{one-way-input
+  value=value
+  update=(action "update")
+  autofocus=true
+  name=key
+  placeholder=property.placeholder
+  class="form-control"
+}}
