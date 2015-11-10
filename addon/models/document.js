@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import Schema from './schema';
 import buildDefaultValueForType from '../utils/build-default-value-for-type';
+import checkValidity from '../utils/check-validity';
 
 class ValueProxy {
   static build(document, propertyPath) {
@@ -164,5 +165,13 @@ export class ObjectDocument extends Document {
 
   validValuesFor(propertyPath) {
     return this._valueProxyFor(propertyPath)._property.validValues;
+  }
+
+  get isValid() {
+    return checkValidity(this, this._values);
+  }
+
+  get required() {
+    return this._schema.required;
   }
 }

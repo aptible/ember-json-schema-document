@@ -18,6 +18,10 @@ export default class Schema {
     this._setupSchema(newSchema);
   }
 
+  get required() {
+    return this._schema.required || [];
+  }
+
   get properties() {
     // TODO: throw an error if called on an array base type
     return getProperties(this, this._schema.properties);
