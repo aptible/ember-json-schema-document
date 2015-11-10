@@ -116,6 +116,11 @@ export class ArrayDocument extends Document {
     return this._documents[index];
   }
 
+  removeItem(index) {
+    this._documents.removeAt(index);
+    this._values.removeAt(index);
+  }
+
   allItems() {
     return this._documents.slice();
   }

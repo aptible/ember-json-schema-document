@@ -161,6 +161,47 @@ test('can access all items after creation', function(assert) {
   assert.deepEqual(result, [item1, item2]);
 });
 
+test('can remove an item from an array based document', function(assert) {
+  let item;
+
+  this.schema = new Schema(arrayBaseObjectFixture);
+  this.document = this.schema.buildDocument();
+
+  let expected1 = {
+    'description': 'stuff here',
+    'streetAddress': 'unknown st',
+    'city': 'hope',
+    'state': 'ri',
+    'zip': '02831'
+  };
+
+  let expected2 = {
+    'description': 'other stuff here',
+    'streetAddress': 'totally known st',
+    'city': 'hope',
+    'state': 'ri',
+    'zip': '02831'
+  };
+
+  item = this.document.addItem();
+  for (let key in expected1) {
+    item.set(key, expected1[key]);
+  }
+
+  item = this.document.addItem();
+  for (let key in expected2) {
+    item.set(key, expected2[key]);
+  }
+
+  let result = this.document.toJSON();
+
+  assert.deepEqual(result, [expected1, expected2]);
+
+  this.document.removeItem(1);
+
+  assert.deepEqual(result, [expected1]);
+});
+
 test('can get a list of validValues for a property', function(assert) {
   let expectedValues = schemaFixture.properties.address.properties.state.enum;
 
