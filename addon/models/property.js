@@ -1,5 +1,6 @@
 import getProperties from '../utils/get-properties';
 import buildDefaultValueForType from '../utils/build-default-value-for-type';
+import checkValidity from '../utils/check-validity';
 
 export default class Property {
   constructor(property) {
@@ -51,33 +52,10 @@ export default class Property {
   }
 
   isValid(object) {
-    let { required, properties, validValues } = this;
-
-    for (let i = 0, l = required.length; i < l; i++) {
-      let requiredPropertyName = required[i];
-      let value = object && object[requiredPropertyName];
-
-      // handles nested properties
-      if (properties[requiredPropertyName] && !properties[requiredPropertyName].isValid(value)) {
-        return false;
-      }
-
-      // handles normal values
-      if (!value) {
-        return false;
-      }
-    }
-
-    // handles validValues / enum
-    if (validValues && validValues.indexOf(object) === -1) {
-      return false;
-    }
-
-    return true;
+    return checkValidity(this, object);
   }
 
   get required() {
     return this._property.required || [];
   }
 }
-

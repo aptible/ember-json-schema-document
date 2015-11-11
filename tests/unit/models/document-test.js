@@ -216,6 +216,16 @@ test('exposes underlying values in `.values`', function(assert) {
   assert.equal(this.document.values.description, 'awesome sauce');
 });
 
+test('exposes `isValid` to determine if the full document is valid', function(assert) {
+  assert.equal(this.document.isValid, false, 'document is not valid');
+
+  this.document.set('phoneNumber', '1234567890');
+  this.document.set('address.streetAddress', '1234 Nowhere St.');
+  this.document.set('address.city', 'Hope');
+
+  assert.equal(this.document.isValid, true, 'document is valid');
+});
+
 skip('throw an error if calling `toJSON` when required fields are not specified');
 skip('handle array properties (where you have many of a given item)');
 skip('add validations when setting property types');
