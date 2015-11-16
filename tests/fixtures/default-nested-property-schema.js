@@ -20,16 +20,9 @@ export default {
           'type': 'string'
         },
         'state': {
-          id: 'http://jsonschema.net/address/state',
-          type: 'string',
-          enum: [
-            'RI',
-            'NY',
-            'IN',
-            'CA',
-            'UT',
-            'CO'
-          ]
+          'id': 'http://jsonschema.net/address/state',
+          'type': 'string',
+          'enum': [ 'RI', 'NY', 'IN', 'CA', 'UT','CO' ]
         }
       },
       'required': [

@@ -12,10 +12,12 @@ let arraySchema = {
     'properties': {
       'description': {
         'id': 'http://jsonschema.net/0/description',
-        'title': 'Description',
         'default': 'Headquarters',
-        'placeholder': 'e.g. Headquarters',
-        'type': 'string'
+        'type': 'string',
+        'displayProperties': {
+          'title': 'Description',
+          'placeholder': 'e.g. Headquarters'
+        }
       }
     },
     'required': [
@@ -45,8 +47,10 @@ let objectSchema = {
         'city': {
           'id': 'http://jsonschema.net/address/city',
           'type': 'string',
-          'title': 'City',
-          'default': 'Brooklyn'
+          'default': 'Brooklyn',
+          'displayProperties': {
+            'title': 'City'
+          }
         }
       },
       'required': [

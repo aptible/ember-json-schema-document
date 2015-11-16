@@ -11,31 +11,41 @@ let flatSchema = {
   'properties': {
     'primaryLocation': {
       'id': 'http://jsonschema.net/0/primary',
-      'title': 'Primary location',
       'type': 'boolean',
-      'default': false
+      'default': false,
+      'displayProperties': {
+        'title': 'Primary location'
+      }
     },
     'description': {
       'id': 'http://jsonschema.net/description',
-      'title': 'Description',
       'default': 'Headquarters',
-      'type': 'string'
+      'type': 'string',
+      'displayProperties': {
+        'title': 'Description'
+      }
     },
     'city': {
       'id': 'http://jsonschema.net/city',
-      'title': 'City',
-      'type': 'string'
+      'type': 'string',
+      'displayProperties': {
+        'title': 'City'
+      }
     },
     'state': {
       'id': 'http://jsonschema.net/state',
-      'title': 'State',
       'type': 'string',
-      'enum': ['RI', 'NY', 'IN', 'CA', 'UT', 'CO']
+      'enum': ['RI', 'NY', 'IN', 'CA', 'UT', 'CO'],
+      'displayProperties': {
+        'title': 'State'
+      }
     },
     'zip': {
       'id': 'http://jsonschema.net/state',
-      'title': 'Zip',
-      'type': 'string'
+      'type': 'string',
+      'displayProperties': {
+        'title': 'Zip'
+      }
     }
   },
   'required': [
@@ -50,15 +60,19 @@ let nestedSchema = {
   'properties': {
     'primaryLocation': {
       'id': 'http://jsonschema.net/0/primary',
-      'title': 'Primary location',
       'type': 'boolean',
-      'default': false
+      'default': false,
+      'displayProperties': {
+        'title': 'Primary location'
+      }
     },
     'description': {
       'id': 'http://jsonschema.net/description',
       'type': 'string',
       'default': 'Headquarters',
-      'title': 'Description'
+      'displayProperties': {
+        'title': 'Description'
+      }
     },
     'address': {
       'id': 'http://jsonschema.net/address',

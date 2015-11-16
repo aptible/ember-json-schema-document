@@ -8,9 +8,11 @@ export default {
     'properties': {
       'description': {
         'id': 'http://jsonschema.net/0/description',
-        'title': 'Description',
         'default': 'Headquarters',
-        'type': 'string'
+        'type': 'string',
+        'displayProperties': {
+          'title': 'Description'
+        }
       },
       'streetAddress': {
         'id': 'http://jsonschema.net/0/streetAddress',
@@ -24,15 +26,19 @@ export default {
       },
       'state': {
         'id': 'http://jsonschema.net/0/state',
-        'title': 'State',
         'type': 'string',
         'enum': ['RI', 'NY', 'IN', 'CA', 'UT', 'CO'],
-        'default': 'NY'
+        'default': 'NY',
+        'displayProperties': {
+          'title': 'State'
+        }
       },
       'zip': {
         'id': 'http://jsonschema.net/0/zip',
-        'title': 'Zip',
-        'type': 'string'
+        'type': 'string',
+        'displayProperties': {
+          'title': 'Zip'
+        }
       }
     },
     'required': [

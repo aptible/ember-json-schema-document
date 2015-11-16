@@ -104,19 +104,21 @@ test('exposes `enum` property as `validValues`', function(assert) {
   assert.deepEqual(property.validValues, values, 'listed enum was available as `validValues`');
 });
 
-test('exposes `default`, `title`, and `placeholder` properties', function(assert) {
+test('exposes displayProperties', function(assert) {
   property = new Property({
-    'type': 'string',
+    type: 'string',
     'default': 'Turd Ferguson',
-    'title': 'Contestant Name',
-    'placeholder': 'e.g. Sean Connery',
-    'prompt': 'Select a contestant',
-    'description': 'Which contestant is your favorite?'
+    displayProperties: {
+      title: 'Contestant Name',
+      placeholder: 'e.g. Sean Connery',
+      prompt: 'Select a contestant',
+      description: 'Which contestant is your favorite?'
+    }
   });
 
-  assert.equal(property.placeholder, 'e.g. Sean Connery', 'placeholder returns placeholder');
+  assert.equal(property.displayProperties.placeholder, 'e.g. Sean Connery', 'placeholder returns placeholder');
   assert.equal(property.default, 'Turd Ferguson', 'default returns default value');
-  assert.equal(property.title, 'Contestant Name', 'title returns property title');
-  assert.equal(property.description, 'Which contestant is your favorite?', 'title returns property description');
-  assert.equal(property.prompt, 'Select a contestant', 'title returns property prompt');
+  assert.equal(property.displayProperties.title, 'Contestant Name', 'title returns property title');
+  assert.equal(property.displayProperties.description, 'Which contestant is your favorite?', 'title returns property description');
+  assert.equal(property.displayProperties.prompt, 'Select a contestant', 'title returns property prompt');
 });
