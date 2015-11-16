@@ -52,7 +52,7 @@ var properties = schema.properties();
 
 ```hbs
 {{#each-property properties=properties as |key property type|}}
-  <label>{{property.title}}</label>
+  <label>{{property.displayProperties.title}}</label>
   {{component (concat 'schema-field-' type) key=key property=property document=location}}
 {{/each-property}}
 ```

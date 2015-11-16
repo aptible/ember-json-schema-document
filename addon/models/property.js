@@ -15,24 +15,12 @@ export default class Property {
     return this._property.type;
   }
 
-  get title() {
-    return this._property.title;
+  get displayProperties() {
+    return this._property.displayProperties;
   }
 
   get default() {
     return this._property.default;
-  }
-
-  get prompt() {
-    return this._property.prompt;
-  }
-
-  get description() {
-    return this._property.description;
-  }
-
-  get placeholder() {
-    return this._property.placeholder;
   }
 
   get properties() {

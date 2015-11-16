@@ -4,10 +4,12 @@ import hbs from 'htmlbars-inline-precompile';
 
 let stateProperty = {
   'id': 'http://jsonschema.net/0/state',
-  'title': 'State',
   'type': 'string',
   'default': 'NY',
-  enum: ['RI', 'NY', 'IN', 'CA', 'UT', 'CO']
+  'enum': ['RI', 'NY', 'IN', 'CA', 'UT', 'CO'],
+  'displayProperties': {
+    'title': 'State'
+  }
 };
 
 let arraySchema = {

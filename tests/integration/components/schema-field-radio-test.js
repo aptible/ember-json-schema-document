@@ -4,9 +4,11 @@ import hbs from 'htmlbars-inline-precompile';
 
 let isDeveloperProperty = {
   'id': 'http://jsonschema.net/0/is-developer',
-  'title': 'Is Developer',
   'type': 'boolean',
-  'default': false
+  'default': false,
+  'displayProperties': {
+    'title': 'Is Developer'
+  }
 };
 
 let arraySchema = {
