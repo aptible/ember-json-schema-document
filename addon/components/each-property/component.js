@@ -6,7 +6,11 @@ export function getPropertyInputType(property) {
   }
 
   if (property.type === 'boolean') {
-    return 'radio';
+    if (Ember.get(property, 'displayProperties.useToggle')) {
+      return 'toggle';
+    } else {
+      return 'radio';
+    }
   }
 
   return 'text';
