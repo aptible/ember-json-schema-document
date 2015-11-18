@@ -8,6 +8,15 @@ module('models/document', {
   beforeEach() {
     this.schema = new Schema(schemaFixture);
     this.document = this.schema.buildDocument();
+  },
+
+  populateDocument(...args) {
+    let object = args.pop();
+    let document = args.pop() || this.document;
+
+    for (let key in object) {
+      document.set(key, object[key]);
+    }
   }
 });
 
@@ -70,9 +79,7 @@ test('add array as base object type using per-property syntax', function(assert)
   };
 
   let item = this.document.addItem();
-  for (let key in expected) {
-    item.set(key, expected[key]);
-  }
+  this.populateDocument(item, expected);
 
   let result = this.document.toJSON();
 
@@ -80,8 +87,6 @@ test('add array as base object type using per-property syntax', function(assert)
 });
 
 test('can add multiple items to an array based document using per-property syntax', function(assert) {
-  let item;
-
   this.schema = new Schema(arrayBaseObjectFixture);
   this.document = this.schema.buildDocument();
 
@@ -101,15 +106,8 @@ test('can add multiple items to an array based document using per-property synta
     'zip': '02831'
   };
 
-  item = this.document.addItem();
-  for (let key in expected1) {
-    item.set(key, expected1[key]);
-  }
-
-  item = this.document.addItem();
-  for (let key in expected2) {
-    item.set(key, expected2[key]);
-  }
+  this.populateDocument(this.document.addItem(), expected1);
+  this.populateDocument(this.document.addItem(), expected2);
 
   let result = this.document.toJSON();
 
@@ -147,14 +145,10 @@ test('can access all items after creation', function(assert) {
   };
 
   let item1 = this.document.addItem();
-  for (let key in expected1) {
-    item1.set(key, expected1[key]);
-  }
-
   let item2 = this.document.addItem();
-  for (let key in expected2) {
-    item2.set(key, expected2[key]);
-  }
+
+  this.populateDocument(item1, expected1);
+  this.populateDocument(item2, expected2);
 
   let result = this.document.allItems();
 
@@ -183,15 +177,11 @@ test('can remove an item from an array based document', function(assert) {
     'zip': '02831'
   };
 
-  item = this.document.addItem();
-  for (let key in expected1) {
-    item.set(key, expected1[key]);
-  }
+  let item1 = this.document.addItem();
+  let item2 = this.document.addItem();
 
-  item = this.document.addItem();
-  for (let key in expected2) {
-    item.set(key, expected2[key]);
-  }
+  this.populateDocument(item1, expected1);
+  this.populateDocument(item2, expected2);
 
   let result = this.document.toJSON();
 
