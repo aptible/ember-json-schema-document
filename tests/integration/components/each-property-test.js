@@ -17,6 +17,14 @@ let flatSchema = {
         'title': 'Primary location'
       }
     },
+    'isActive': {
+      'type': 'boolean',
+      'default': false,
+      'displayProperties': {
+        'title': 'Is Active Location?',
+        'useToggle': true
+      }
+    },
     'description': {
       'id': 'http://jsonschema.net/description',
       'default': 'Headquarters',
@@ -64,6 +72,14 @@ let nestedSchema = {
       'default': false,
       'displayProperties': {
         'title': 'Primary location'
+      }
+    },
+    'isActive': {
+      'type': 'boolean',
+      'default': false,
+      'displayProperties': {
+        'title': 'Is Active Location?',
+        'useToggle': true
       }
     },
     'description': {
@@ -126,6 +142,7 @@ test('can render flat schema document properties', function(assert) {
   `);
 
   assert.equal(this.$('input[type="radio"][name="primaryLocation"]').length, 2, 'has two radios');
+  assert.equal(this.$('.x-toggle-btn').length, 1, 'has a toggle button');
   assert.equal(this.$('input[type="text"][name="description"]').length, 1, 'has a description text field');
   assert.equal(this.$('input[type="text"][name="description"]').val(), 'Headquarters', 'description has default value');
   assert.equal(this.$('input[type="text"][name="city"]').length, 1, 'has a city text field');
@@ -148,6 +165,7 @@ test('can render nested schema document properties', function(assert) {
   `);
 
   assert.equal(this.$('input[type="radio"][name="primaryLocation"]').length, 2, 'has two radios');
+  assert.equal(this.$('.x-toggle-btn').length, 1, 'has a toggle button');
   assert.equal(this.$('input[type="text"][name="description"]').length, 1, 'has a description text field');
   assert.equal(this.$('input[type="text"][name="description"]').val(), 'Headquarters', 'description has default value');
   assert.equal(this.$('input[type="text"][name="address.city"]').length, 1, 'has a city text field');
