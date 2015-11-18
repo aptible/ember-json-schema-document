@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export const DEFAULT_SIZE = 'medium';
+export const DEFAULT_SIZE = 'small';
 export const DEFAULT_SHOW_LABELS = false;
 export const DEFAULT_TRUE_LABEL = 'True';
 export const DEFAULT_FALSE_LABEL = 'False';
