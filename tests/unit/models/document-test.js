@@ -155,9 +155,7 @@ test('can access all items after creation', function(assert) {
   assert.deepEqual(result, [item1, item2]);
 });
 
-test('can remove an item from an array based document', function(assert) {
-  let item;
-
+test('can remove an item by index from an array based document', function(assert) {
   this.schema = new Schema(arrayBaseObjectFixture);
   this.document = this.schema.buildDocument();
 
@@ -190,6 +188,41 @@ test('can remove an item from an array based document', function(assert) {
   this.document.removeItem(1);
 
   assert.deepEqual(result, [expected1]);
+});
+
+test('can remove an item by reference from an array based document', function(assert) {
+  this.schema = new Schema(arrayBaseObjectFixture);
+  this.document = this.schema.buildDocument();
+
+  let expected1 = {
+    'description': 'stuff here',
+    'streetAddress': 'unknown st',
+    'city': 'hope',
+    'state': 'ri',
+    'zip': '02831'
+  };
+
+  let expected2 = {
+    'description': 'other stuff here',
+    'streetAddress': 'totally known st',
+    'city': 'hope',
+    'state': 'ri',
+    'zip': '02831'
+  };
+
+  let item1 = this.document.addItem();
+  let item2 = this.document.addItem();
+
+  this.populateDocument(item1, expected1);
+  this.populateDocument(item2, expected2);
+
+  let result = this.document.toJSON();
+
+  assert.deepEqual(result, [expected1, expected2]);
+
+  this.document.removeObject(item1);
+
+  assert.deepEqual(result, [expected2]);
 });
 
 test('can get a list of validValues for a property', function(assert) {

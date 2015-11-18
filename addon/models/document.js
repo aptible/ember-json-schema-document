@@ -57,6 +57,7 @@ class ValueProxy {
   }
 }
 
+let uuid = 0;
 export default class Document {
   static build(schema, baseType) {
     if (baseType === 'array') {
@@ -76,6 +77,7 @@ export default class Document {
     this._schema = schema;
     this._baseType = baseType;
     this._values = buildDefaultValueForType(this._baseType);
+    this._uuid = `document-${baseType}-${++uuid}`;
   }
 
   toJSON() {
@@ -88,6 +90,7 @@ export class ArrayDocument extends Document {
     super(...arguments);
 
     this._documents = Ember.A();
+    this._uuidIndexes = {};
   }
 
   _buildDocumentInstance() {
@@ -110,6 +113,8 @@ export class ArrayDocument extends Document {
       this._documents.pushObject(document);
     });
 
+    this._uuidIndexes[document._uuid] = this._documents.length - 1;
+
     return document;
   }
 
@@ -118,8 +123,18 @@ export class ArrayDocument extends Document {
   }
 
   removeItem(index) {
+    let document = this.getItem(index);
+
     this._documents.removeAt(index);
     this._values.removeAt(index);
+
+    this._uuidIndexes[document._uuid] = undefined;
+  }
+
+  removeObject(item) {
+    let index = this._uuidIndexes[item._uuid];
+
+    this.removeItem(index);
   }
 
   allItems() {
