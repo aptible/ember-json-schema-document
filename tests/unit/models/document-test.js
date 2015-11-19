@@ -6,8 +6,28 @@ import arrayBaseObjectFixture from '../../fixtures/location-schema';
 
 module('models/document', {
   beforeEach() {
+    this.count = 0;
     this.schema = new Schema(schemaFixture);
     this.document = this.schema.buildDocument();
+  },
+
+  populateDocument(...args) {
+    let object = args.pop();
+    let document = args.pop() || this.document;
+
+    for (let key in object) {
+      document.set(key, object[key]);
+    }
+  },
+
+  buildLocation() {
+    return {
+      'description': `stuff here ${++this.count}`,
+      'streetAddress': `${++this.count} unknown st`,
+      'city': 'hope',
+      'state': 'ri',
+      'zip': `${++this.count}${++this.count}${++this.count}${++this.count}${++this.count}`
+    };
   }
 });
 
@@ -61,18 +81,10 @@ test('add array as base object type using per-property syntax', function(assert)
   this.schema = new Schema(arrayBaseObjectFixture);
   this.document = this.schema.buildDocument();
 
-  let expected = {
-    'description': 'stuff here',
-    'streetAddress': 'unknown st',
-    'city': 'hope',
-    'state': 'ri',
-    'zip': '02831'
-  };
+  let expected = this.buildLocation();
 
   let item = this.document.addItem();
-  for (let key in expected) {
-    item.set(key, expected[key]);
-  }
+  this.populateDocument(item, expected);
 
   let result = this.document.toJSON();
 
@@ -80,36 +92,14 @@ test('add array as base object type using per-property syntax', function(assert)
 });
 
 test('can add multiple items to an array based document using per-property syntax', function(assert) {
-  let item;
-
   this.schema = new Schema(arrayBaseObjectFixture);
   this.document = this.schema.buildDocument();
 
-  let expected1 = {
-    'description': 'stuff here',
-    'streetAddress': 'unknown st',
-    'city': 'hope',
-    'state': 'ri',
-    'zip': '02831'
-  };
+  let expected1 = this.buildLocation();
+  let expected2 = this.buildLocation();
 
-  let expected2 = {
-    'description': 'other stuff here',
-    'streetAddress': 'totally known st',
-    'city': 'hope',
-    'state': 'ri',
-    'zip': '02831'
-  };
-
-  item = this.document.addItem();
-  for (let key in expected1) {
-    item.set(key, expected1[key]);
-  }
-
-  item = this.document.addItem();
-  for (let key in expected2) {
-    item.set(key, expected2[key]);
-  }
+  this.populateDocument(this.document.addItem(), expected1);
+  this.populateDocument(this.document.addItem(), expected2);
 
   let result = this.document.toJSON();
 
@@ -130,68 +120,32 @@ test('can access all items after creation', function(assert) {
   this.schema = new Schema(arrayBaseObjectFixture);
   this.document = this.schema.buildDocument();
 
-  let expected1 = {
-    'description': 'stuff here',
-    'streetAddress': 'unknown st',
-    'city': 'hope',
-    'state': 'ri',
-    'zip': '02831'
-  };
-
-  let expected2 = {
-    'description': 'other stuff here',
-    'streetAddress': 'totally known st',
-    'city': 'hope',
-    'state': 'ri',
-    'zip': '02831'
-  };
+  let expected1 = this.buildLocation();
+  let expected2 = this.buildLocation();
 
   let item1 = this.document.addItem();
-  for (let key in expected1) {
-    item1.set(key, expected1[key]);
-  }
-
   let item2 = this.document.addItem();
-  for (let key in expected2) {
-    item2.set(key, expected2[key]);
-  }
+
+  this.populateDocument(item1, expected1);
+  this.populateDocument(item2, expected2);
 
   let result = this.document.allItems();
 
   assert.deepEqual(result, [item1, item2]);
 });
 
-test('can remove an item from an array based document', function(assert) {
-  let item;
-
+test('can remove an item by index from an array based document', function(assert) {
   this.schema = new Schema(arrayBaseObjectFixture);
   this.document = this.schema.buildDocument();
 
-  let expected1 = {
-    'description': 'stuff here',
-    'streetAddress': 'unknown st',
-    'city': 'hope',
-    'state': 'ri',
-    'zip': '02831'
-  };
+  let expected1 = this.buildLocation();
+  let expected2 = this.buildLocation();
 
-  let expected2 = {
-    'description': 'other stuff here',
-    'streetAddress': 'totally known st',
-    'city': 'hope',
-    'state': 'ri',
-    'zip': '02831'
-  };
+  let item1 = this.document.addItem();
+  let item2 = this.document.addItem();
 
-  item = this.document.addItem();
-  for (let key in expected1) {
-    item.set(key, expected1[key]);
-  }
-
-  item = this.document.addItem();
-  for (let key in expected2) {
-    item.set(key, expected2[key]);
-  }
+  this.populateDocument(item1, expected1);
+  this.populateDocument(item2, expected2);
 
   let result = this.document.toJSON();
 
@@ -200,6 +154,28 @@ test('can remove an item from an array based document', function(assert) {
   this.document.removeItem(1);
 
   assert.deepEqual(result, [expected1]);
+});
+
+test('can remove an item by reference from an array based document', function(assert) {
+  this.schema = new Schema(arrayBaseObjectFixture);
+  this.document = this.schema.buildDocument();
+
+  let expected1 = this.buildLocation();
+  let expected2 = this.buildLocation();
+
+  let item1 = this.document.addItem();
+  let item2 = this.document.addItem();
+
+  this.populateDocument(item1, expected1);
+  this.populateDocument(item2, expected2);
+
+  let result = this.document.toJSON();
+
+  assert.deepEqual(result, [expected1, expected2]);
+
+  this.document.removeObject(item1);
+
+  assert.deepEqual(result, [expected2]);
 });
 
 test('can get a list of validValues for a property', function(assert) {
