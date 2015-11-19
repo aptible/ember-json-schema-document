@@ -6,6 +6,7 @@ import arrayBaseObjectFixture from '../../fixtures/location-schema';
 
 module('models/document', {
   beforeEach() {
+    this.count = 0;
     this.schema = new Schema(schemaFixture);
     this.document = this.schema.buildDocument();
   },
@@ -17,6 +18,16 @@ module('models/document', {
     for (let key in object) {
       document.set(key, object[key]);
     }
+  },
+
+  buildLocation() {
+    return {
+      'description': `stuff here ${++this.count}`,
+      'streetAddress': `${++this.count} unknown st`,
+      'city': 'hope',
+      'state': 'ri',
+      'zip': `${++this.count}${++this.count}${++this.count}${++this.count}${++this.count}`
+    };
   }
 });
 
@@ -70,13 +81,7 @@ test('add array as base object type using per-property syntax', function(assert)
   this.schema = new Schema(arrayBaseObjectFixture);
   this.document = this.schema.buildDocument();
 
-  let expected = {
-    'description': 'stuff here',
-    'streetAddress': 'unknown st',
-    'city': 'hope',
-    'state': 'ri',
-    'zip': '02831'
-  };
+  let expected = this.buildLocation();
 
   let item = this.document.addItem();
   this.populateDocument(item, expected);
@@ -90,21 +95,8 @@ test('can add multiple items to an array based document using per-property synta
   this.schema = new Schema(arrayBaseObjectFixture);
   this.document = this.schema.buildDocument();
 
-  let expected1 = {
-    'description': 'stuff here',
-    'streetAddress': 'unknown st',
-    'city': 'hope',
-    'state': 'ri',
-    'zip': '02831'
-  };
-
-  let expected2 = {
-    'description': 'other stuff here',
-    'streetAddress': 'totally known st',
-    'city': 'hope',
-    'state': 'ri',
-    'zip': '02831'
-  };
+  let expected1 = this.buildLocation();
+  let expected2 = this.buildLocation();
 
   this.populateDocument(this.document.addItem(), expected1);
   this.populateDocument(this.document.addItem(), expected2);
@@ -128,21 +120,8 @@ test('can access all items after creation', function(assert) {
   this.schema = new Schema(arrayBaseObjectFixture);
   this.document = this.schema.buildDocument();
 
-  let expected1 = {
-    'description': 'stuff here',
-    'streetAddress': 'unknown st',
-    'city': 'hope',
-    'state': 'ri',
-    'zip': '02831'
-  };
-
-  let expected2 = {
-    'description': 'other stuff here',
-    'streetAddress': 'totally known st',
-    'city': 'hope',
-    'state': 'ri',
-    'zip': '02831'
-  };
+  let expected1 = this.buildLocation();
+  let expected2 = this.buildLocation();
 
   let item1 = this.document.addItem();
   let item2 = this.document.addItem();
@@ -159,21 +138,8 @@ test('can remove an item by index from an array based document', function(assert
   this.schema = new Schema(arrayBaseObjectFixture);
   this.document = this.schema.buildDocument();
 
-  let expected1 = {
-    'description': 'stuff here',
-    'streetAddress': 'unknown st',
-    'city': 'hope',
-    'state': 'ri',
-    'zip': '02831'
-  };
-
-  let expected2 = {
-    'description': 'other stuff here',
-    'streetAddress': 'totally known st',
-    'city': 'hope',
-    'state': 'ri',
-    'zip': '02831'
-  };
+  let expected1 = this.buildLocation();
+  let expected2 = this.buildLocation();
 
   let item1 = this.document.addItem();
   let item2 = this.document.addItem();
@@ -194,21 +160,8 @@ test('can remove an item by reference from an array based document', function(as
   this.schema = new Schema(arrayBaseObjectFixture);
   this.document = this.schema.buildDocument();
 
-  let expected1 = {
-    'description': 'stuff here',
-    'streetAddress': 'unknown st',
-    'city': 'hope',
-    'state': 'ri',
-    'zip': '02831'
-  };
-
-  let expected2 = {
-    'description': 'other stuff here',
-    'streetAddress': 'totally known st',
-    'city': 'hope',
-    'state': 'ri',
-    'zip': '02831'
-  };
+  let expected1 = this.buildLocation();
+  let expected2 = this.buildLocation();
 
   let item1 = this.document.addItem();
   let item2 = this.document.addItem();
