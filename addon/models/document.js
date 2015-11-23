@@ -80,8 +80,18 @@ export default class Document {
     this._uuid = `document-${baseType}-${++uuid}`;
   }
 
-  toJSON() {
+  dump() {
     return this._values;
+  }
+
+  toJSON() {
+    Ember.deprecate(
+      'Using Document#toJSON is deprecated, please use Document#dump instead.',
+      false,
+      { id: 'ember-json-schema.document.toJSON', until: '0.1.0' }
+    );
+
+    return this.dump(...arguments);
   }
 }
 
