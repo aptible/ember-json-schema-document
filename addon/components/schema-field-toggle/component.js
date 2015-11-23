@@ -12,7 +12,7 @@ export default Ember.Component.extend({
     let key = this.get('key');
     let document = this.get('document');
     let defaultValue = this.get('property.default');
-    let initialValue =  '';
+    let initialValue =  false;
     let documentValue = document.get(key);
 
     if (typeof defaultValue !== 'undefined') {
