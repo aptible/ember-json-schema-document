@@ -61,13 +61,13 @@ test('set without a value throws an error', function(assert) {
   }, /You must provide a value as the second argument to `.set`/);
 });
 
-test('toJSON returns a object with values that were set', function(assert) {
+test('dump returns a object with values that were set', function(assert) {
   this.document.set('address.streetAddress', '123 Blah St.');
   this.document.set('address.city', 'Hope');
 
   // TODO: deal with phoneNumber array somehow
 
-  let result = this.document.toJSON();
+  let result = this.document.dump();
 
   assert.deepEqual(result, {
     address: {
@@ -75,6 +75,30 @@ test('toJSON returns a object with values that were set', function(assert) {
       city: 'Hope'
     }
   });
+});
+
+test('dump and toJSON return equal values', function(assert) {
+  this.document.set('address.streetAddress', '123 Blah St.');
+  this.document.set('address.city', 'Hope');
+
+  let dumpResult = this.document.dump();
+  let toJSONResult = this.document.toJSON();
+
+  assert.deepEqual(dumpResult, {
+    address: {
+      streetAddress: '123 Blah St.',
+      city: 'Hope'
+    }
+  });
+
+  assert.deepEqual(toJSONResult, {
+    address: {
+      streetAddress: '123 Blah St.',
+      city: 'Hope'
+    }
+  });
+
+  assert.deepEqual(toJSONResult, dumpResult);
 });
 
 test('add array as base object type using per-property syntax', function(assert) {
@@ -86,7 +110,7 @@ test('add array as base object type using per-property syntax', function(assert)
   let item = this.document.addItem();
   this.populateDocument(item, expected);
 
-  let result = this.document.toJSON();
+  let result = this.document.dump();
 
   assert.deepEqual(result, [expected]);
 });
@@ -101,7 +125,7 @@ test('can add multiple items to an array based document using per-property synta
   this.populateDocument(this.document.addItem(), expected1);
   this.populateDocument(this.document.addItem(), expected2);
 
-  let result = this.document.toJSON();
+  let result = this.document.dump();
 
   assert.deepEqual(result, [expected1, expected2]);
 });
@@ -147,7 +171,7 @@ test('can remove an item by index from an array based document', function(assert
   this.populateDocument(item1, expected1);
   this.populateDocument(item2, expected2);
 
-  let result = this.document.toJSON();
+  let result = this.document.dump();
 
   assert.deepEqual(result, [expected1, expected2]);
 
@@ -169,7 +193,7 @@ test('can remove an item by reference from an array based document', function(as
   this.populateDocument(item1, expected1);
   this.populateDocument(item2, expected2);
 
-  let result = this.document.toJSON();
+  let result = this.document.dump();
 
   assert.deepEqual(result, [expected1, expected2]);
 
@@ -202,6 +226,6 @@ test('exposes `isValid` to determine if the full document is valid', function(as
   assert.equal(this.document.isValid, true, 'document is valid');
 });
 
-skip('throw an error if calling `toJSON` when required fields are not specified');
+skip('throw an error if calling `dump` when required fields are not specified');
 skip('handle array properties (where you have many of a given item)');
 skip('add validations when setting property types');

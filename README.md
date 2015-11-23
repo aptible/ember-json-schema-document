@@ -12,7 +12,7 @@ item = document.addItem();
 item.set('description', 'Headquarters');
 item.set('streetAddress', '155 Water St');
 
-document.toJSON();
+document.dump();
 
 [{
   "description": "Headquarters",
@@ -31,7 +31,7 @@ var document = schema.buildDocument();
 document.set('description', 'Headquarters');
 document.set('streetAddress', '155 Water St');
 
-document.toJSON();
+document.dump();
 
 {
   "description": "Headquarters",
