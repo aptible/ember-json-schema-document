@@ -84,6 +84,10 @@ export default class Document {
     return this._values;
   }
 
+  load() {
+    throw new Error('Document#load must be overridden in the type specific base class');
+  }
+
   toJSON() {
     Ember.deprecate(
       'Using Document#toJSON is deprecated, please use Document#dump instead.',
@@ -157,10 +161,23 @@ export class ArrayDocument extends Document {
 }
 
 export class ObjectDocument extends Document {
-  constructor() {
+  constructor(schema, baseType, data) {
     super(...arguments);
 
     this._valueProxies = Object.create(null);
+
+    if (data) {
+      this.load(data);
+    }
+  }
+
+  load(data) {
+    let properties = Object.keys(data);
+    for (let i = 0, l = properties.length; i < l; i++) {
+      let propertyName = properties[i];
+
+      this.set(propertyName, data[propertyName]);
+    }
   }
 
   _valueProxyFor(path) {
