@@ -50,3 +50,17 @@ test('itemProperties returns a list of properties', function(assert) {
   assert.deepEqual(['description', 'streetAddress', 'city', 'state', 'zip'],
                    propertyKeys, 'known keys are present');
 });
+
+test('can build a new document prepopulated with data', function(assert) {
+  let input = {
+    address: {
+      streetAddress: '123 Blah St.',
+      city: 'Hope'
+    }
+  };
+
+  let document = schema.buildDocument(input);
+  let result = document.dump();
+
+  assert.deepEqual(input, result);
+});

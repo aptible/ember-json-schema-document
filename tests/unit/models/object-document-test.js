@@ -73,3 +73,31 @@ test('exposes `isValid` to determine if the full document is valid', function(as
   assert.equal(this.document.isValid, true, 'document is valid');
 });
 
+test('exposes a `load` method', function(assert) {
+  let input = {
+    address: {
+      streetAddress: '123 Blah St.',
+      city: 'Hope'
+    }
+  };
+
+  this.document.load(input);
+
+  let result = this.document.dump();
+
+  assert.deepEqual(input, result);
+});
+
+test('can access properties after `load`', function(assert) {
+  let input = {
+    address: {
+      streetAddress: '123 Blah St.',
+      city: 'Hope'
+    }
+  };
+
+  this.document.load(input);
+
+  assert.equal(this.document.get('address.city'), 'Hope');
+  assert.equal(this.document.get('address.streetAddress'), '123 Blah St.');
+});
