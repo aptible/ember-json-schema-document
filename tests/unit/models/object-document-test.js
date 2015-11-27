@@ -1,6 +1,7 @@
 import Schema from 'ember-json-schema/models/schema';
 import { module, test } from 'qunit';
 import schemaFixture from '../../fixtures/default-nested-property-schema';
+import schemaDoubleFixture from '../../fixtures/default-double-nested-property-schema';
 
 module('models/document - object', {
   beforeEach() {
@@ -19,6 +20,14 @@ test('can set a value for a nested property', function(assert) {
   this.document.set('address.streetAddress', '123 Blah St.');
 
   assert.equal(this.document.get('address.streetAddress'), '123 Blah St.');
+});
+
+test('can set a value for a double nested property', function(assert) {
+  this.schema = new Schema(schemaDoubleFixture);
+  this.document = this.schema.buildDocument();
+  this.document.set('address.streetAddress.street', 'Blah St.');
+
+  assert.equal(this.document.get('address.streetAddress.street'), 'Blah St.');
 });
 
 test('using an invalid property throws an error', function(assert) {
@@ -44,6 +53,26 @@ test('dump returns a object with values that were set', function(assert) {
   assert.deepEqual(result, {
     address: {
       streetAddress: '123 Blah St.',
+      city: 'Hope'
+    }
+  });
+});
+
+test('dump returns a object with double nested values that were set', function(assert) {
+  this.schema = new Schema(schemaDoubleFixture);
+  this.document = this.schema.buildDocument();
+  this.document.set('address.streetAddress.street', 'Blah St.');
+  this.document.set('address.city', 'Hope');
+
+  // TODO: deal with phoneNumber array somehow
+
+  let result = this.document.dump();
+
+  assert.deepEqual(result, {
+    address: {
+      streetAddress: {
+        street: 'Blah St.'
+      },
       city: 'Hope'
     }
   });

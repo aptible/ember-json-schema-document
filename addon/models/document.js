@@ -11,15 +11,16 @@ class ValueProxy {
     let part;
 
     do {
+      let _values = values;
       part = parts.shift();
       property = property.properties[part];
 
       if (parts.length > 0) {
-        values = document._values[part];
+        values = _values[part];
       }
 
       if (!values) {
-        values = document._values[part] = property.buildDefaultValue();
+        values = _values[part] = property.buildDefaultValue();
       }
     } while (parts.length > 0);
 
