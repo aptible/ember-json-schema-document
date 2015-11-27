@@ -36,7 +36,7 @@ document.dump();
 {
   "description": "Headquarters",
   "streetAddress": "155 Water St"
-]
+}
 ```
 
 ### Generating form controls
