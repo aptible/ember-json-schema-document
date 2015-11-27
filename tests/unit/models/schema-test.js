@@ -4,6 +4,7 @@ import Document from 'ember-json-schema/models/document';
 import { module, test } from 'qunit';
 import schemaFixture from '../../fixtures/default-nested-property-schema';
 import arraySchemaFixture from '../../fixtures/location-schema';
+import refSchemaFixture from '../../fixtures/ref-schema';
 
 let schema;
 module('models/schema', {
@@ -35,6 +36,31 @@ test('accessing properties returns an instance of `Property` model', function(as
 
   assert.equal(schema.properties.address.type, 'object');
   assert.equal(schema.properties.phoneNumber.type, 'array');
+});
+
+test('properties expose a stack linking back to the original schema', function(assert) {
+  assert.equal(schema.properties.address.schemaStack.indexOf(schema), 0);
+});
+
+test('accessing referenced properties returns an instance of `Property` model', function(assert) {
+  schema = new Schema(refSchemaFixture);
+
+  assert.ok(schema.properties.str instanceof Property, 'str is an instance of Property');
+  assert.equal(schema.properties.str.type, 'string');
+
+  assert.ok(schema.properties.nested instanceof Property, 'nested is an instance of Property');
+  assert.equal(schema.properties.nested.type, 'object');
+});
+
+test('accessing recursive properties return instances of `Property` model', function(assert) {
+  schema = new Schema(refSchemaFixture);
+
+  assert.ok(schema.properties.nested instanceof Property);
+  assert.ok(schema.properties.nested.properties.value instanceof Property);
+  assert.ok(schema.properties.nested.properties.value.properties.value instanceof Property);
+
+  assert.equal(schema.properties.nested.properties.value.properties.value.type, 'object');
+  assert.equal(schema.properties.nested.properties.value.properties.value.properties.key.type, 'string');
 });
 
 test('can build a new document using this schema', function(assert) {

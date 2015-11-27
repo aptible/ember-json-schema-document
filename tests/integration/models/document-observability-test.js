@@ -2,6 +2,7 @@ import { moduleForComponent, test } from 'ember-qunit';
 import Schema from 'ember-json-schema/models/schema';
 import schemaFixture from '../../fixtures/default-nested-property-schema';
 import arrayBaseObjectFixture from '../../fixtures/location-schema';
+import refSchemaFixture from '../../fixtures/ref-schema';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('document observability', {
@@ -65,4 +66,29 @@ test('can observe array based document properties', function(assert) {
   }
 
   assert.equal(this.$().text(), 'hopeprovidence', 'adds new item value');
+});
+
+test('can observe referenced document properties', function(assert) {
+  this.schema = new Schema(refSchemaFixture);
+
+  let expected1 = {
+    'str': 'test',
+    'nested': {
+      'value': {
+        'value': {
+          'key': 'depth3'
+        }
+      }
+    }
+  };
+  this.document = this.schema.buildDocument(expected1);
+  this.set('doc', this.document);
+
+  this.render(hbs`{{doc.values.nested.value.value.key}}`);
+
+  assert.equal(this.$().text(), 'depth3', 'renders the correct initial value');
+
+  this.document.set('nested.value.value.key', 'DEPTH3');
+
+  assert.equal(this.$().text(), 'DEPTH3', 'updates the value');
 });
