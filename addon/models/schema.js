@@ -39,5 +39,26 @@ export default class Schema {
   _setupSchema(schema) {
     this._properties = null;
     this._schema = schema;
+    this._schemaStack = [this];
+  }
+
+  get schemaStack() {
+    return this._schemaStack;
+  }
+
+  resolveURI(uri) {
+    let parts = uri.split('/');
+    if (parts[0] === '' || parts[0] === '#') {
+      parts.shift();
+    }
+
+    let property = this._schema;
+
+    do {
+      let part = parts.shift();
+      property = property[part];
+    } while (parts.length > 0);
+
+    return property;
   }
 }
