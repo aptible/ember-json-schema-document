@@ -36,9 +36,11 @@ let objectSchema = {
   'properties': {
     'description': {
       'id': 'http://jsonschema.net/description',
-      'title': 'Description',
       'default': 'Headquarters',
-      'type': 'string'
+      'type': 'string',
+      'displayProperties': {
+        'title': 'Description'
+      }
     },
     'address': {
       'id': 'http://jsonschema.net/address',
@@ -61,6 +63,21 @@ let objectSchema = {
   'required': [
     'description'
   ]
+};
+
+let disabledPropertySchema = {
+  'type': 'object',
+  'properties': {
+    'description': {
+      'id': 'http://jsonschema.net/description',
+      'default': 'Headquarters',
+      'type': 'string',
+      'displayProperties': {
+        'title': 'Description',
+        'disabled': true
+      }
+    }
+  }
 };
 
 moduleForComponent('schema-field-text', {
@@ -225,5 +242,35 @@ test('Object document nested property: updates document when changed', function(
   input.trigger('input');
 
   assert.equal(this.objectDocument.get(this.nestedKey), expected, 'new document value is correct');
+});
+
+test('When `disabled` displayProperty is true, text field should be disabled', function(assert) {
+  let schema = new Schema(disabledPropertySchema);
+  let document = schema.buildDocument();
+  let property = schema.properties.description;
+
+  this.setProperties({ key: 'description', property, document });
+  this.render(hbs('{{schema-field-text key=key property=property document=document}}'));
+
+  let input = this.$('input[type="text"]');
+  assert.ok(input.is(':disabled'), 'input is disabled');
+  assert.equal(input.val(), 'Headquarters', 'default value is used in input');
+  assert.equal(document.get('description'), 'Headquarters', 'document value is correct');
+});
+
+test('When `disabled` displayProperty is false, text field should not disabled', function(assert) {
+  let propertySchema = Ember.$.extend(true, {}, disabledPropertySchema)
+  propertySchema.properties.description.displayProperties.disabled = false;
+  let schema = new Schema(propertySchema);
+  let document = schema.buildDocument();
+  let property = schema.properties.description;
+
+  this.setProperties({ key: 'description', property, document });
+  this.render(hbs('{{schema-field-text key=key property=property document=document}}'));
+
+  let input = this.$('input[type="text"]');
+  assert.ok(!input.is(':disabled'), 'input is not disabled');
+  assert.equal(input.val(), 'Headquarters', 'default value is used in input');
+  assert.equal(document.get('description'), 'Headquarters', 'document value is correct');
 });
 
