@@ -60,6 +60,27 @@ let objectSchema = {
   ]
 };
 
+let disabledPropertySchema = {
+  'type': 'object',
+  'properties': {
+    'developer': {
+      'default': true,
+      'type': 'boolean',
+      'displayProperties': {
+        'title': 'Is Developer',
+        'disabled': true,
+        'toggleSize': 'small',
+        'showLabels': true,
+        'useToggle': true,
+        'labels': {
+          'trueLabel': 'Yes',
+          'falseLabel': 'No'
+        }
+      }
+    }
+  }
+};
+
 moduleForComponent('schema-field-toggle', {
   integration: true,
 
@@ -185,4 +206,34 @@ test('Toggle default labels', function(assert) {
 
   assert.equal(this.$('.toggle-prefix:contains(False)').length, 1, 'Has True label');
   assert.equal(this.$('.toggle-postfix:contains(True)').length, 1, 'Has False label');
+});
+
+test('When `disabled` displayProperty is true, toggle should be disabled', function(assert) {
+  let schema = new Schema(disabledPropertySchema);
+  let document = schema.buildDocument();
+  let property = schema.properties.developer;
+
+  this.setProperties({ key: 'developer', property, document });
+  this.render(hbs('{{schema-field-toggle key=key property=property document=document}}'));
+
+  let toggle = this.$('.x-toggle-container');
+  assert.ok(toggle.hasClass('x-toggle-container-disabled'), 'toggle is disabled');
+  assert.ok(toggle.hasClass('x-toggle-container-checked'), 'default value is used');
+  assert.equal(document.get('developer'), true, 'document value is correct');
+});
+
+test('When `disabled` displayProperty is false, toggle should not be disabled', function(assert) {
+  let schemaProperty = Ember.$.extend(true, {}, disabledPropertySchema);
+  schemaProperty.properties.developer.displayProperties.disabled = false;
+  let schema = new Schema(schemaProperty);
+  let document = schema.buildDocument();
+  let property = schema.properties.developer;
+
+  this.setProperties({ key: 'developer', property, document });
+  this.render(hbs('{{schema-field-toggle key=key property=property document=document}}'));
+
+  let toggle = this.$('.x-toggle-container');
+  assert.ok(!toggle.hasClass('x-toggle-container-disabled'), 'toggle is not disabled');
+  assert.ok(toggle.hasClass('x-toggle-container-checked'), 'default value is used');
+  assert.equal(document.get('developer'), true, 'document value is correct');
 });
