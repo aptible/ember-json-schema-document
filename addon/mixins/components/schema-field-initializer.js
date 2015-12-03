@@ -10,11 +10,20 @@ export default Ember.Mixin.create({
     let initialValue = document.get(key) || defaultValue || '';
 
     this.set('value', initialValue);
+    document.set(key, initialValue);
   },
 
   getCurrentValue() {
     this.$('input').val();
   },
+
+  disabled: Ember.computed('property.displayProperties.disabled', function() {
+    if (this.get('property.displayProperties.disabled')) {
+      return 'disabled';
+    }
+
+    return false;
+  }),
 
   actions: {
     update(value) {

@@ -1,11 +1,11 @@
 <div class="radio">
   <div class="radio-button-option">
-    {{#radio-button value=false groupValue=value name=key changed="changed"}}
+    {{#radio-button value=false groupValue=value name=key changed="changed" disabled=property.displayProperties.disabled}}
       False
     {{/radio-button}}
   </div>
   <div class="radio-button-option">
-    {{#radio-button value=true groupValue=value name=key changed="changed"}}
+    {{#radio-button value=true groupValue=value name=key changed="changed" disabled=property.displayProperties.disabled}}
       True
     {{/radio-button}}
   </div>
