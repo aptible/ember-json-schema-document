@@ -10,6 +10,7 @@ export default Ember.Mixin.create({
     let initialValue = document.get(key) || defaultValue || '';
 
     this.set('value', initialValue);
+    document.set(key, initialValue);
   },
 
   getCurrentValue() {

@@ -53,6 +53,21 @@ let objectSchema = {
   ]
 };
 
+let disabledPropertySchema = {
+  'type': 'object',
+  'properties': {
+    'state': {
+      'default': 'IN',
+      'type': 'string',
+      'enum': ['RI', 'NY', 'IN', 'CA', 'UT', 'CO'],
+      'displayProperties': {
+        'title': 'State',
+        'disabled': true
+      }
+    }
+  }
+};
+
 moduleForComponent('schema-field-select', {
   integration: true,
 
@@ -229,4 +244,34 @@ test('Object document nested property: updates document when changed', function(
   select.trigger('change');
 
   assert.equal(this.objectDocument.get(this.nestedKey), expected);
+});
+
+test('When `disabled` displayProperty is true, select should be disabled', function(assert) {
+  let schema = new Schema(disabledPropertySchema);
+  let document = schema.buildDocument();
+  let property = schema.properties.state;
+
+  this.setProperties({ key: 'state', property, document });
+  this.render(hbs('{{schema-field-select key=key property=property document=document}}'));
+
+  let select = this.$('select');
+  assert.ok(select.is(':disabled'), 'select is disabled');
+  assert.equal(select.val(), 'IN', 'default value is used in select');
+  assert.equal(document.get('state'), 'IN', 'document value is correct');
+});
+
+test('When `disabled` displayProperty is false, select should not be disabled', function(assert) {
+  let schemaProperty = Ember.$.extend(true, {}, disabledPropertySchema);
+  schemaProperty.properties.state.displayProperties.disabled = false;
+  let schema = new Schema(schemaProperty);
+  let document = schema.buildDocument();
+  let property = schema.properties.state;
+
+  this.setProperties({ key: 'state', property, document });
+  this.render(hbs('{{schema-field-select key=key property=property document=document}}'));
+
+  let select = this.$('select');
+  assert.ok(!select.is(':disabled'), 'select is not disabled');
+  assert.equal(select.val(), 'IN', 'default value is used in select');
+  assert.equal(document.get('state'), 'IN', 'document value is correct');
 });

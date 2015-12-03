@@ -1,6 +1,6 @@
- <select name="{{key}}" {{action 'update' on="change"}} class="form-control">
-  {{#if property.prompt}}
-    <option disabled selected={{if (not value) true null}}>{{property.prompt}}</option>
+ <select name="{{key}}" {{action 'update' on="change"}} class="form-control" disabled={{property.displayProperties.disabled}}>
+  {{#if property.displayProperties.prompt}}
+    <option disabled selected={{if (not value) true null}}>{{property.displayProperties.prompt}}</option>
   {{/if}}
 
   {{#each property.validValues as |option|}}
