@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import Schema from 'ember-json-schema/models/schema';
 import hbs from 'htmlbars-inline-precompile';
@@ -259,7 +260,7 @@ test('When `disabled` displayProperty is true, text field should be disabled', f
 });
 
 test('When `disabled` displayProperty is false, text field should not disabled', function(assert) {
-  let propertySchema = Ember.$.extend(true, {}, disabledPropertySchema)
+  let propertySchema = Ember.$.extend(true, {}, disabledPropertySchema);
   propertySchema.properties.description.displayProperties.disabled = false;
   let schema = new Schema(propertySchema);
   let document = schema.buildDocument();

@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import Schema from 'ember-json-schema/models/schema';
 import hbs from 'htmlbars-inline-precompile';
