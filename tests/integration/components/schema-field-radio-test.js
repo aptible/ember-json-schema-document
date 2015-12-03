@@ -52,6 +52,20 @@ let objectSchema = {
   ]
 };
 
+let disabledPropertySchema = {
+  'type': 'object',
+  'properties': {
+    'developer': {
+      'default': true,
+      'type': 'boolean',
+      'displayProperties': {
+        'title': 'Is Developer',
+        'disabled': true
+      }
+    }
+  }
+};
+
 moduleForComponent('schema-field-radio', {
   integration: true,
 
@@ -123,4 +137,42 @@ test('Array document: updates document when changed', function(assert) {
   this.$('input[type="radio"][value="true"]').click();
 
   assert.equal(newItem.get(this.key), expected);
+});
+
+test('When `disabled` displayProperty is true, radios should be disabled', function(assert) {
+  let schema = new Schema(disabledPropertySchema);
+  let document = schema.buildDocument();
+  let property = schema.properties.developer;
+
+  this.setProperties({ key: 'developer', property, document });
+  this.render(hbs('{{schema-field-radio key=key property=property document=document}}'));
+
+  let trueInput = this.$('input[type="radio"][value="true"]');
+  let falseInput = this.$('input[type="radio"][value="false"]');
+
+  assert.ok(trueInput.is(':disabled'), 'true input is disabled');
+  assert.ok(falseInput.is(':disabled'), 'false input is disabled');
+  assert.ok(trueInput.is(':checked'), 'true input is checked by default');
+  assert.ok(!falseInput.is(':checked'), 'false input is not checked by default');
+  assert.equal(document.get('developer'), true, 'document value is correct');
+});
+
+test('When `disabled` displayProperty is false, radios should not be disabled', function(assert) {
+  let propertySchema = Ember.$.extend(true, {}, disabledPropertySchema);
+  propertySchema.properties.developer.displayProperties.disabled = false;
+  let schema = new Schema(propertySchema);
+  let document = schema.buildDocument();
+  let property = schema.properties.developer;
+
+  this.setProperties({ key: 'developer', property, document });
+  this.render(hbs('{{schema-field-radio key=key property=property document=document}}'));
+
+  let trueInput = this.$('input[type="radio"][value="true"]');
+  let falseInput = this.$('input[type="radio"][value="false"]');
+
+  assert.ok(!trueInput.is(':disabled'), 'true input is not disabled');
+  assert.ok(!falseInput.is(':disabled'), 'false input is not disabled');
+  assert.ok(trueInput.is(':checked'), 'true input is checked by default');
+  assert.ok(!falseInput.is(':checked'), 'false input is not checked by default');
+  assert.equal(document.get('developer'), true, 'document value is correct');
 });

@@ -18,6 +18,7 @@ export default Ember.Component.extend({
     }
 
     this.set('value', initialValue);
+    document.set(key, initialValue);
   },
 
   actions: {

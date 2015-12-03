@@ -16,6 +16,14 @@ export default Ember.Mixin.create({
     this.$('input').val();
   },
 
+  disabled: Ember.computed('property.displayProperties.disabled', function() {
+    if (this.get('property.displayProperties.disabled')) {
+      return 'disabled';
+    }
+
+    return false;
+  }),
+
   actions: {
     update(value) {
       if (typeof value === 'undefined') {
