@@ -111,3 +111,13 @@ test('can remove an item by reference from an array based document', function(as
 
   assert.deepEqual(result, [expected2]);
 });
+
+test('exposes a `load` method', function(assert) {
+  let input = [this.buildLocation(), this.buildLocation()];
+
+  this.document.load(input);
+
+  let result = this.document.dump();
+
+  assert.deepEqual(input, result);
+});
