@@ -2,61 +2,7 @@ import Ember from 'ember';
 import Schema from './schema';
 import buildDefaultValueForType from '../utils/build-default-value-for-type';
 import checkValidity from '../utils/check-validity';
-
-class ValueProxy {
-  static build(document, propertyPath) {
-    let parts = propertyPath.split('.');
-    let property = document;
-    let values = document._values;
-    let part;
-
-    do {
-      let _values = values;
-      part = parts.shift();
-      property = property.properties[part];
-
-      if (parts.length > 0) {
-        values = _values[part];
-      }
-
-      if (!values) {
-        values = _values[part] = property.buildDefaultValue();
-      }
-    } while (parts.length > 0);
-
-    return new ValueProxy(document, propertyPath, property, values, part);
-  }
-
-  constructor(document, propertyPath, property, values, valuePath) {
-    this._document = document;
-    this._propertyPath = propertyPath;
-    this._property = property;
-    this._values = values;
-    this._valuePath = valuePath;
-  }
-
-  get valueType() {
-    return this._property.type;
-  }
-
-  set value(newValue) {
-    if (!this._property) {
-      throw new Error('You may not set a nonexistant field.');
-    }
-
-    Ember.run(() => {
-      Ember.set(this._values, this._valuePath, newValue);
-    });
-  }
-
-  get value() {
-    if (!(this._valuePath in this._values)) {
-      this.value = this._property.buildDefaultValue();
-    }
-
-    return this._values[this._valuePath];
-  }
-}
+import ValueProxy from './value-proxy';
 
 let uuid = 0;
 export default class Document {
@@ -116,12 +62,23 @@ export class ArrayDocument extends Document {
     return document;
   }
 
-  addItem() {
+  load(items) {
+    if (!Array.isArray(items)) {
+      throw new Error('You must pass an array to `load` for array-based documents');
+    }
+
+    items.forEach((item) => {
+      this.addItem(item);
+    });
+  }
+
+  addItem(item = {}) {
     if (this._baseType !== 'array') {
       throw new Error('You can only call `addItem` on documents with a base object of `array`.');
     }
 
     let document = this._buildDocumentInstance();
+    document.load(item);
 
     Ember.run(() => {
       this._values.pushObject(document._values);
