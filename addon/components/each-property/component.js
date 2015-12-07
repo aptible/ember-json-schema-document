@@ -17,6 +17,8 @@ export function getPropertyInputType(property) {
 }
 
 export default Ember.Component.extend({
+  tagName: '',
+
   propertyCollection: Ember.computed('properties.[]', function() {
     let propertyHash = this.get('properties');
     let propertyKeys = Object.keys(propertyHash);
