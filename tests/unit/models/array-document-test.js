@@ -23,7 +23,7 @@ module('models/document', {
       'description': `stuff here ${++this.count}`,
       'streetAddress': `${++this.count} unknown st`,
       'city': 'hope',
-      'state': 'ri',
+      'state': 'RI',
       'zip': `${++this.count}${++this.count}${++this.count}${++this.count}${++this.count}`
     };
   }
@@ -38,6 +38,17 @@ test('add array as base object type using per-property syntax', function(assert)
   let result = this.document.dump();
 
   assert.deepEqual(result, [expected]);
+});
+
+test('`dump` with `excludeInvalid` should only include valid items', function(assert) {
+  let valid = this.buildLocation();
+
+  this.document.addItem(valid);
+  this.document.addItem();
+
+  let result = this.document.dump({ excludeInvalid: true });
+
+  assert.deepEqual(result, [valid]);
 });
 
 test('can add multiple items to an array based document using per-property syntax', function(assert) {

@@ -56,7 +56,7 @@ export class ArrayDocument extends Document {
 
   _buildDocumentInstance() {
     // TODO: handle array of arrays (WAT?)
-    let schema = new Schema(this._schema._schema.items);
+    let schema = new Schema(this._schemaItems);
     let document = schema.buildDocument();
 
     return document;
@@ -69,6 +69,21 @@ export class ArrayDocument extends Document {
 
     items.forEach((item) => {
       this.addItem(item);
+    });
+  }
+
+  dump(params = {}) {
+    if (params.excludeInvalid) {
+      return this.validValues();
+    } else {
+      return this._values;
+    }
+  }
+
+  validValues() {
+    return this._values.filter((value, index) => {
+      let document = this._documents[index];
+      return document.isValid;
     });
   }
 
@@ -111,6 +126,10 @@ export class ArrayDocument extends Document {
 
   allItems() {
     return this._documents.slice();
+  }
+
+  get _schemaItems() {
+    return this._schema._schema.items;
   }
 
   get values() {
