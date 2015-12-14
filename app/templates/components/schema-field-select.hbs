@@ -1,4 +1,4 @@
- <select name="{{key}}" {{action 'update' on="change"}} class="form-control" disabled={{property.displayProperties.disabled}}>
+ <select name="{{key}}" {{action 'update' on="change"}} class="form-control" disabled={{property.readonly}}>
   {{#if property.displayProperties.prompt}}
     <option disabled selected={{if (not value) true null}}>{{property.displayProperties.prompt}}</option>
   {{/if}}

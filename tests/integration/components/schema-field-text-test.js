@@ -15,8 +15,8 @@ let arraySchema = {
         'id': 'http://jsonschema.net/0/description',
         'default': 'Headquarters',
         'type': 'string',
+        'title': 'Description',
         'displayProperties': {
-          'title': 'Description',
           'placeholder': 'e.g. Headquarters'
         }
       }
@@ -39,9 +39,7 @@ let objectSchema = {
       'id': 'http://jsonschema.net/description',
       'default': 'Headquarters',
       'type': 'string',
-      'displayProperties': {
-        'title': 'Description'
-      }
+      'title': 'Description'
     },
     'address': {
       'id': 'http://jsonschema.net/address',
@@ -51,9 +49,7 @@ let objectSchema = {
           'id': 'http://jsonschema.net/address/city',
           'type': 'string',
           'default': 'Brooklyn',
-          'displayProperties': {
-            'title': 'City'
-          }
+          'title': 'City'
         }
       },
       'required': [
@@ -73,10 +69,8 @@ let disabledPropertySchema = {
       'id': 'http://jsonschema.net/description',
       'default': 'Headquarters',
       'type': 'string',
-      'displayProperties': {
-        'title': 'Description',
-        'disabled': true
-      }
+      'readonly': true,
+      'title': 'Description'
     }
   }
 };
@@ -245,7 +239,7 @@ test('Object document nested property: updates document when changed', function(
   assert.equal(this.objectDocument.get(this.nestedKey), expected, 'new document value is correct');
 });
 
-test('When `disabled` displayProperty is true, text field should be disabled', function(assert) {
+test('When `readonly` is true, text field should be disabled', function(assert) {
   let schema = new Schema(disabledPropertySchema);
   let document = schema.buildDocument();
   let property = schema.properties.description;
@@ -259,9 +253,9 @@ test('When `disabled` displayProperty is true, text field should be disabled', f
   assert.equal(document.get('description'), 'Headquarters', 'document value is correct');
 });
 
-test('When `disabled` displayProperty is false, text field should not disabled', function(assert) {
+test('When `readonly` is false, text field should not disabled', function(assert) {
   let propertySchema = Ember.$.extend(true, {}, disabledPropertySchema);
-  propertySchema.properties.description.displayProperties.disabled = false;
+  propertySchema.properties.description.readonly = false;
   let schema = new Schema(propertySchema);
   let document = schema.buildDocument();
   let property = schema.properties.description;

@@ -7,9 +7,7 @@ let isDeveloperProperty = {
   'id': 'http://jsonschema.net/0/is-developer',
   'type': 'boolean',
   'default': false,
-  'displayProperties': {
-    'title': 'Is Developer'
-  }
+  'title': 'Is Developer'
 };
 
 let arraySchema = {
@@ -59,10 +57,8 @@ let disabledPropertySchema = {
     'developer': {
       'default': true,
       'type': 'boolean',
-      'displayProperties': {
-        'title': 'Is Developer',
-        'disabled': true
-      }
+      'readonly': true,
+      'title': 'Is Developer'
     }
   }
 };
@@ -140,7 +136,7 @@ test('Array document: updates document when changed', function(assert) {
   assert.equal(newItem.get(this.key), expected);
 });
 
-test('When `disabled` displayProperty is true, radios should be disabled', function(assert) {
+test('When `readonly` is true, radios should be disabled', function(assert) {
   let schema = new Schema(disabledPropertySchema);
   let document = schema.buildDocument();
   let property = schema.properties.developer;
@@ -158,9 +154,9 @@ test('When `disabled` displayProperty is true, radios should be disabled', funct
   assert.equal(document.get('developer'), true, 'document value is correct');
 });
 
-test('When `disabled` displayProperty is false, radios should not be disabled', function(assert) {
+test('When `readonly` is false, radios should not be disabled', function(assert) {
   let propertySchema = Ember.$.extend(true, {}, disabledPropertySchema);
-  propertySchema.properties.developer.displayProperties.disabled = false;
+  propertySchema.properties.developer.readonly = false;
   let schema = new Schema(propertySchema);
   let document = schema.buildDocument();
   let property = schema.properties.developer;
