@@ -66,9 +66,9 @@ let disabledPropertySchema = {
     'developer': {
       'default': true,
       'type': 'boolean',
+      'title': 'Is Developer',
+      'readonly': true,
       'displayProperties': {
-        'title': 'Is Developer',
-        'disabled': true,
         'toggleSize': 'small',
         'showLabels': true,
         'useToggle': true,
@@ -208,7 +208,7 @@ test('Toggle default labels', function(assert) {
   assert.equal(this.$('.toggle-postfix:contains(True)').length, 1, 'Has False label');
 });
 
-test('When `disabled` displayProperty is true, toggle should be disabled', function(assert) {
+test('When `readonly` is true, toggle should be disabled', function(assert) {
   let schema = new Schema(disabledPropertySchema);
   let document = schema.buildDocument();
   let property = schema.properties.developer;
@@ -222,9 +222,9 @@ test('When `disabled` displayProperty is true, toggle should be disabled', funct
   assert.equal(document.get('developer'), true, 'document value is correct');
 });
 
-test('When `disabled` displayProperty is false, toggle should not be disabled', function(assert) {
+test('When `readonly` is false, toggle should not be disabled', function(assert) {
   let schemaProperty = Ember.$.extend(true, {}, disabledPropertySchema);
-  schemaProperty.properties.developer.displayProperties.disabled = false;
+  schemaProperty.properties.developer.readonly = false;
   let schema = new Schema(schemaProperty);
   let document = schema.buildDocument();
   let property = schema.properties.developer;

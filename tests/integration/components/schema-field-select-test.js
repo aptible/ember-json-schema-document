@@ -8,9 +8,7 @@ let stateProperty = {
   'type': 'string',
   'default': 'NY',
   'enum': ['RI', 'NY', 'IN', 'CA', 'UT', 'CO'],
-  'displayProperties': {
-    'title': 'State'
-  }
+  'title': 'State'
 };
 
 let arraySchema = {
@@ -61,10 +59,8 @@ let disabledPropertySchema = {
       'default': 'IN',
       'type': 'string',
       'enum': ['RI', 'NY', 'IN', 'CA', 'UT', 'CO'],
-      'displayProperties': {
-        'title': 'State',
-        'disabled': true
-      }
+      'title': 'State',
+      'readonly': true
     }
   }
 };
@@ -247,7 +243,7 @@ test('Object document nested property: updates document when changed', function(
   assert.equal(this.objectDocument.get(this.nestedKey), expected);
 });
 
-test('When `disabled` displayProperty is true, select should be disabled', function(assert) {
+test('When `readonly` is true, select should be disabled', function(assert) {
   let schema = new Schema(disabledPropertySchema);
   let document = schema.buildDocument();
   let property = schema.properties.state;
@@ -261,9 +257,9 @@ test('When `disabled` displayProperty is true, select should be disabled', funct
   assert.equal(document.get('state'), 'IN', 'document value is correct');
 });
 
-test('When `disabled` displayProperty is false, select should not be disabled', function(assert) {
+test('When `readonly` is false, select should not be disabled', function(assert) {
   let schemaProperty = Ember.$.extend(true, {}, disabledPropertySchema);
-  schemaProperty.properties.state.displayProperties.disabled = false;
+  schemaProperty.properties.state.readonly = false;
   let schema = new Schema(schemaProperty);
   let document = schema.buildDocument();
   let property = schema.properties.state;

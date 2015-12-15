@@ -24,6 +24,18 @@ export default class Property {
     return this._property.default;
   }
 
+  get readonly() {
+    return this._property.readonly || false;
+  }
+
+  get title() {
+    return this._property.title;
+  }
+
+  get description() {
+    return this._property.description;
+  }
+
   get properties() {
     if (this._property.properties) {
       return getProperties(this, this._property.properties);

@@ -104,21 +104,54 @@ test('exposes `enum` property as `validValues`', function(assert) {
   assert.deepEqual(property.validValues, values, 'listed enum was available as `validValues`');
 });
 
-test('exposes displayProperties', function(assert) {
+test('exposes `displayProperties`', function(assert) {
   property = new Property({
-    type: 'string',
-    'default': 'Turd Ferguson',
-    displayProperties: {
-      title: 'Contestant Name',
-      placeholder: 'e.g. Sean Connery',
-      prompt: 'Select a contestant',
-      description: 'Which contestant is your favorite?'
+    'type': 'string',
+    'displayProperties': {
+      'placeholder': 'e.g. Sean Connery',
+      'prompt': 'Select a contestant'
     }
   });
 
-  assert.equal(property.displayProperties.placeholder, 'e.g. Sean Connery', 'placeholder returns placeholder');
-  assert.equal(property.default, 'Turd Ferguson', 'default returns default value');
-  assert.equal(property.displayProperties.title, 'Contestant Name', 'title returns property title');
-  assert.equal(property.displayProperties.description, 'Which contestant is your favorite?', 'title returns property description');
-  assert.equal(property.displayProperties.prompt, 'Select a contestant', 'title returns property prompt');
+  assert.equal(property.displayProperties.placeholder, 'e.g. Sean Connery', '`placeholder` returns placeholder');
+  assert.equal(property.displayProperties.prompt, 'Select a contestant', '`prompt` returns property prompt');
+});
+
+test('exposes `default`', function(assert) {
+  property = new Property({
+    'type': 'string',
+    'default': 'Turd Ferguson'
+  });
+
+  assert.equal(property.default, 'Turd Ferguson', '`default` returns default value');
+});
+
+test('exposes `title` and `description`', function(assert) {
+  property = new Property({
+    'type': 'string',
+    'title': 'Contestant Name',
+    'description': 'Which contestant is your favorite?'
+  });
+
+  assert.equal(property.title, 'Contestant Name', '`title` returns property title');
+  assert.equal(property.description, 'Which contestant is your favorite?', '`description` returns property description');
+});
+
+test('exposes `readonly` when true', function(assert) {
+  property = new Property({
+    'type': 'string',
+    'default': 'Turd Ferguson',
+    'readonly': true
+  });
+
+  assert.equal(property.readonly, true, '`readonly` returns true when set');
+});
+
+test('`readonly` returns false when undefined in schema', function(assert) {
+  property = new Property({
+    'type': 'string',
+    'default': 'Turd Ferguson'
+  });
+
+  assert.equal(property.readonly, false, '`readonly` returns false when undefined');
 });
