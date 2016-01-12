@@ -1,5 +1,6 @@
 import getProperties from '../utils/get-properties';
 import Document from './document';
+import Ember from 'ember';
 
 export default class Schema {
   constructor(schema) {
@@ -10,8 +11,27 @@ export default class Schema {
     this._setupSchema(schema);
   }
 
+  static load(schemaUrl, options, ajax = Ember.$.ajax) {
+    return new Ember.RSVP.Promise((resolve, reject) => {
+      options.dataType = 'json';
+      options.contentType = 'application/schema+json';
+
+      ajax(schemaUrl, options).then(Ember.run.bind(null, (payload) => {
+        if (payload) {
+          resolve(new Schema(payload));
+        } else {
+          reject(`Unable to load schema located at ${schemaUrl}`);
+        }
+      }), Ember.run.bind(null, reject));
+    });
+  }
+
   get schema() {
     return this._schema;
+  }
+
+  get id() {
+    return this._schema.id;
   }
 
   set schema(newSchema) {
