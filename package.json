@@ -8,7 +8,7 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "ember test"
+    "test": "ember try:testall"
   },
   "repository": {
     "type": "git",
@@ -47,7 +47,8 @@
     "ember-radio-button": "1.0.7",
     "ember-cli-toggle": "^0.6.0",
     "ember-suave": "^1.2.0",
-    "ember-truth-helpers": "1.1.0"
+    "ember-truth-helpers": "1.1.0",
+    "ember-try": "~0.0.8"
   },
   "keywords": [
     "ember-addon"
