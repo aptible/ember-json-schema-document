@@ -39,6 +39,19 @@ document.dump();
 }
 ```
 
+## Loading a schema by URL
+
+```js
+var url = 'https://gridiron.aptible.com/schemas/workforce_locations/v0.0.3';
+
+Schema.load(url).then((schema) => {
+  var document = schema.buildDocument();
+  var location = document.addItem();
+
+  location.set('address', '155 Water St');
+});
+```
+
 ### Generating form controls
 
 The following template will iterate a schema's properties and build UI components
