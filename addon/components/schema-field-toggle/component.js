@@ -50,6 +50,7 @@ export default Ember.Component.extend({
 
       document.set(this.get('key'), value);
       this.set('value', value);
+      this.sendAction('changed', value);
     }
   }
 });

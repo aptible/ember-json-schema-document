@@ -36,6 +36,7 @@ export default Ember.Mixin.create({
 
       document.set(key, value);
       this.set('value', value);
+      this.sendAction('changed', value);
     }
   }
 });
