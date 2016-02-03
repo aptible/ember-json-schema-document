@@ -1,4 +1,4 @@
-import Property from 'ember-json-schema/models/property';
+import Property from 'ember-json-schema-document/models/property';
 
 import { module, test } from 'qunit';
 

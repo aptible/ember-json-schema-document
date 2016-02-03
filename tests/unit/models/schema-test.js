@@ -1,6 +1,6 @@
-import Schema from 'ember-json-schema/models/schema';
-import Property from 'ember-json-schema/models/property';
-import Document from 'ember-json-schema/models/document';
+import Schema from 'ember-json-schema-document/models/schema';
+import Property from 'ember-json-schema-document/models/property';
+import Document from 'ember-json-schema-document/models/document';
 import { module, test } from 'qunit';
 import schemaFixture from '../../fixtures/default-nested-property-schema';
 import arraySchemaFixture from '../../fixtures/location-schema';

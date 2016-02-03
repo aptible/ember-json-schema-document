@@ -1,4 +1,4 @@
-import Schema from 'ember-json-schema/models/schema';
+import Schema from 'ember-json-schema-document/models/schema';
 import { module, test } from 'qunit';
 import arrayBaseObjectFixture from '../../fixtures/location-schema';
 
