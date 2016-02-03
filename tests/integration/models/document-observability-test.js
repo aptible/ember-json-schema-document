@@ -1,5 +1,5 @@
 import { moduleForComponent, test } from 'ember-qunit';
-import Schema from 'ember-json-schema/models/schema';
+import Schema from 'ember-json-schema-document/models/schema';
 import schemaFixture from '../../fixtures/default-nested-property-schema';
 import arrayBaseObjectFixture from '../../fixtures/location-schema';
 import refSchemaFixture from '../../fixtures/ref-schema';

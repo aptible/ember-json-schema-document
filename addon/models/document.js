@@ -39,7 +39,7 @@ export default class Document {
     Ember.deprecate(
       'Using Document#toJSON is deprecated, please use Document#dump instead.',
       false,
-      { id: 'ember-json-schema.document.toJSON', until: '0.1.0' }
+      { id: 'ember-json-schema-document.document.toJSON', until: '0.1.0' }
     );
 
     return this.dump(...arguments);
