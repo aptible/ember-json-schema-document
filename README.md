@@ -1,4 +1,4 @@
-# ember-json-schema
+# ember-json-schema-document
 
 The purpose of this addon is to simplify the process of creating and validating schema-based JSON documents.
 
@@ -50,24 +50,6 @@ Schema.load(url).then((schema) => {
 
   location.set('address', '155 Water St');
 });
-```
-
-### Generating form controls
-
-The following template will iterate a schema's properties and build UI components
-that are bound to corresponding document values;
-
-```js
-var schema = new Schema(jsonBlob);
-var document = schema.buildDocument();
-var properties = schema.properties();
-```
-
-```hbs
-{{#each-property properties=properties as |key property type|}}
-  <label>{{property.displayProperties.title}}</label>
-  {{component (concat 'schema-field-' type) key=key property=property document=location}}
-{{/each-property}}
 ```
 
 ## Installation

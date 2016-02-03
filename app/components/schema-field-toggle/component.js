@@ -1,1 +1,0 @@
-export { default } from 'ember-json-schema/components/schema-field-toggle/component';

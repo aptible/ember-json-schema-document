@@ -1,7 +1,7 @@
 {
-  "name": "ember-json-schema",
-  "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "name": "ember-json-schema-document",
+  "version": "0.0.1",
+  "description": "An ember-cli addon for building and validating JSON Schema documents",
   "directories": {
     "test": "tests"
   },
@@ -12,16 +12,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aptible/ember-json-schema.git"
+    "url": "git+https://github.com/aptible/ember-json-schema-document.git"
   },
   "engines": {
     "node": ">= 0.10.0"
   },
   "main": "index.js",
   "bugs": {
-    "url": "https://github.com/aptible/ember-json-schema/issues"
+    "url": "https://github.com/aptible/ember-json-schema-document/issues"
   },
-  "homepage": "https://github.com/aptible/ember-json-schema#readme",
+  "homepage": "https://github.com/aptible/ember-json-schema-document#readme",
   "author": "Skylar Anderson <skylar@aptible.com>",
   "license": "MIT",
   "devDependencies": {
