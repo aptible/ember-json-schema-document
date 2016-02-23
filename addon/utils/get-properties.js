@@ -18,7 +18,8 @@ export default function(object, rawProperties) {
         rawProperty = object.resolveURI(rawProperty.$ref);
       }
 
-      properties[key] = new Property(rawProperty, object.schemaStack);
+      properties[key] = new Property(rawProperty, object, key,
+                                     object.schemaStack);
     }
   }
 
