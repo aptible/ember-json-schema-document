@@ -122,3 +122,11 @@ test('`hasDependentProperties` returns true if properties depend on this propert
 
   assert.equal(master.hasDependentProperties, true, 'is true when dependent properties exist');
 });
+
+test('`documentPath` returns the full property path', function(assert) {
+  let child = property.getChildProperty('shippingAddress');
+  let grandChild = child.getChildProperty('city');
+
+  assert.equal(child.documentPath, 'shippingAddress', 'first level');
+  assert.equal(grandChild.documentPath, 'shippingAddress.city', 'nth level');
+});

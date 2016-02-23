@@ -144,6 +144,18 @@ export default class Property {
     return dependents;
   }
 
+  get documentPath() {
+    if (this.hasParentProperty) {
+      if (this.parentProperty.documentPath) {
+        return [this.parentProperty.documentPath, this.key].join('.');
+      } else {
+        return this.key;
+      }
+    }
+
+    return '';
+  }
+
   get schemaStack() {
     return this._schemaStack;
   }
