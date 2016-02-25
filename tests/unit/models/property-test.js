@@ -41,13 +41,23 @@ test('accepts a property definition to constructor', function(assert) {
 test('throws an error if schema is not provided to constructor', function(assert) {
   assert.throws(function() {
     new Property();
-  }, /You must provide a property definition to the Property constructor./);
+  }, /You must provide a property definition to the `Property` constructor./);
+});
+
+test('throws an error if parent property is supplised without a key', function(assert) {
+  assert.throws(function() {
+    new Property({ type: 'object', properties: {} }, { type: 'object' });
+  }, /You must provide a property `key` to the `Property` constructor when a `parentProperty` exists./);
 });
 
 test('accessing properties returns a list of properties', function(assert) {
   let propertyKeys = Object.keys(property.properties);
 
   assert.deepEqual(['streetAddress', 'city', 'state'], propertyKeys, 'known keys are present');
+});
+
+test('`getChildProperty` return child property by key', function(assert) {
+  assert.deepEqual(property.getChildProperty('state').validValues, ['NY', 'IN'], 'correct property is returned');
 });
 
 test('accessing properties returns an instance of `Property` model', function(assert) {
@@ -59,7 +69,7 @@ test('accessing properties returns an instance of `Property` model', function(as
 });
 
 test('can create a default value for an object', function(assert) {
-  assert.deepEqual(property.buildDefaultValue(), {}, 'defaultValue returns an object if property type is object');
+  assert.deepEqual(property.buildDefaultValue().serialize(), {}, 'defaultValue returns an object if property type is object');
 });
 
 test('can create a default value for an object', function(assert) {

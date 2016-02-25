@@ -101,6 +101,7 @@ test('can remove an item by index from an array based document', function(assert
 
   this.document.removeItem(1);
 
+  result = this.document.dump();
   assert.deepEqual(result, [expected1]);
 });
 
@@ -119,7 +120,7 @@ test('can remove an item by reference from an array based document', function(as
   assert.deepEqual(result, [expected1, expected2]);
 
   this.document.removeObject(item1);
-
+  result = this.document.dump();
   assert.deepEqual(result, [expected2]);
 });
 

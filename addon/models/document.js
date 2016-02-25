@@ -28,7 +28,7 @@ export default class Document {
   }
 
   dump() {
-    return this._values;
+    return this._values.serialize();
   }
 
   load() {
@@ -73,11 +73,15 @@ export class ArrayDocument extends Document {
   }
 
   dump(params = {}) {
+    let values = this._values;
+
     if (params.excludeInvalid) {
-      return this.validValues();
-    } else {
-      return this._values;
+      values = this.validValues();
     }
+
+    return values.map((item) => {
+      return item.serialize();
+    });
   }
 
   validValues() {
@@ -174,8 +178,11 @@ export class ObjectDocument extends Document {
       throw new Error('You must provide a value as the second argument to `.set`');
     }
 
-    let proxy = this._valueProxyFor(propertyPath);
-    proxy.value = value;
+    Ember.run(() => {
+      let proxy = this._valueProxyFor(propertyPath);
+      proxy.value = value;
+      this.values.notifyPropertyChange(propertyPath);
+    });
   }
 
   get(propertyPath) {
