@@ -69,7 +69,7 @@ test('accessing properties returns an instance of `Property` model', function(as
 });
 
 test('can create a default value for an object', function(assert) {
-  assert.deepEqual(property.buildDefaultValue(), {}, 'defaultValue returns an object if property type is object');
+  assert.deepEqual(property.buildDefaultValue().serialize(), {}, 'defaultValue returns an object if property type is object');
 });
 
 test('can create a default value for an object', function(assert) {

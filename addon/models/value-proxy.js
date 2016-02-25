@@ -51,7 +51,7 @@ class ValueProxy {
       this.value = this._property.buildDefaultValue();
     }
 
-    return this._values[this._valuePath];
+    return Ember.get(this._values, this._valuePath);
   }
 }
 

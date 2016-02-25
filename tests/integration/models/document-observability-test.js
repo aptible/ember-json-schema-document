@@ -29,6 +29,7 @@ test('can observe document properties', function(assert) {
 });
 
 test('can observe array based document properties', function(assert) {
+
   this.schema = new Schema(arrayBaseObjectFixture);
   this.document = this.schema.buildDocument();
 
