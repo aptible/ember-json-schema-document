@@ -42,6 +42,10 @@ export default class Property {
     return this._property.description;
   }
 
+  get items() {
+    return this._property.items;
+  }
+
   get properties() {
     if (this._property.properties) {
       return getProperties(this, this._property.properties);
@@ -69,6 +73,10 @@ export default class Property {
   }
 
   get validValues() {
+    if (this.items && this.items.enum) {
+      return this.items.enum;
+    }
+
     return this._property.enum;
   }
 
