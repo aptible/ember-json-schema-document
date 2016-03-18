@@ -101,8 +101,9 @@ test('`dependsOnProperties` returns the properties that depend on this property'
   let child = property.getChildProperty('shippingAddress');
   let master = child.getChildProperty('useAlternateShippingAddress');
   let dependent = child.getChildProperty('city');
+  let expected = [{ property: master, values: [true] }];
 
-  assert.deepEqual(dependent.dependsOnProperties, [master], 'master is included in dependsOnProperties list');
+  assert.deepEqual(dependent.dependsOnProperties, expected, 'master is included in dependsOnProperties list');
 });
 
 test('`isDependentProperty` returns true for properties that depend on other properties', function(assert) {

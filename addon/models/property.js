@@ -121,10 +121,18 @@ export default class Property {
     let dependsOn = [];
 
     if (this.hasParentProperty) {
-      let dependencies = this.parentProperty.dependencies;
+      let dependencies = this.parentProperty.dependencies[myKey];
 
-      for(let key in dependencies[myKey]) {
-        dependsOn.push(this.parentProperty.getChildProperty(key));
+      for (let key in dependencies) {
+        let values = dependencies[key];
+
+        if (!Array.isArray(values)) {
+          values = [values];
+        }
+
+        dependsOn.push({
+          values, property: this.parentProperty.getChildProperty(key)
+        });
       }
     }
 
@@ -136,9 +144,9 @@ export default class Property {
     let dependents = [];
 
     if (this.hasParentProperty) {
-      let dependencies = this.parentProperty.dependencies;
+      let { dependencies } = this.parentProperty;
 
-      for(let key in dependencies) {
+      for (let key in dependencies) {
         if (Object.keys(dependencies[key]).indexOf(myKey) > -1) {
           dependents.push(this.parentProperty.getChildProperty(key));
         }
