@@ -10,8 +10,10 @@ export const orderFixture = {
     'email': { 'type': 'string' },
     'shippingAddress': {
       'type': 'object',
-      'dependencies': {
-        'useAlternateShippingAddress': ['streetAddress', 'city', 'state']
+      '_dependencies': {
+        'streetAddress':  { 'useAlternateShippingAddress': [true] },
+        'city':           { 'useAlternateShippingAddress': true },
+        'state':          { 'useAlternateShippingAddress': true }
       },
       'required': ['useAlternateShippingAddress'],
       'properties': {
@@ -57,7 +59,7 @@ export const orderFixture = {
 };
 
 let property;
-module('models/property', {
+module('models/property dependencies', {
   beforeEach() {
     property = new Property(orderFixture);
   }
@@ -65,7 +67,9 @@ module('models/property', {
 
 test('`dependencies` returns hash of property dependencies', function(assert) {
   let expectedDependencies = {
-    useAlternateShippingAddress: ['streetAddress', 'city', 'state']
+    'streetAddress':  { 'useAlternateShippingAddress': [true] },
+    'city':           { 'useAlternateShippingAddress': true },
+    'state':          { 'useAlternateShippingAddress': true }
   };
 
   assert.deepEqual(property.dependencies, {}, 'root object has no dependencies');
