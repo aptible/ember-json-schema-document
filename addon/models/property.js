@@ -120,7 +120,7 @@ export default class Property {
     let myKey = this.key;
     let dependsOn = [];
 
-    if (this.hasParentProperty) {
+    if (this.hasParentProperty && this.parentProperty.dependencies) {
       let dependencies = this.parentProperty.dependencies[myKey];
 
       for (let key in dependencies) {
@@ -143,7 +143,7 @@ export default class Property {
     let myKey = this.key;
     let dependents = [];
 
-    if (this.hasParentProperty) {
+    if (this.hasParentProperty && this.parentProperty.dependencies) {
       let { dependencies } = this.parentProperty;
 
       for (let key in dependencies) {
