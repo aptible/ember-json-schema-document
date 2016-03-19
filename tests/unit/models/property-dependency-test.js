@@ -10,8 +10,10 @@ export const orderFixture = {
     'email': { 'type': 'string' },
     'shippingAddress': {
       'type': 'object',
-      'dependencies': {
-        'useAlternateShippingAddress': ['streetAddress', 'city', 'state']
+      '_dependencies': {
+        'streetAddress':  { 'useAlternateShippingAddress': [true] },
+        'city':           { 'useAlternateShippingAddress': true },
+        'state':          { 'useAlternateShippingAddress': true }
       },
       'required': ['useAlternateShippingAddress'],
       'properties': {
@@ -57,7 +59,7 @@ export const orderFixture = {
 };
 
 let property;
-module('models/property', {
+module('models/property dependencies', {
   beforeEach() {
     property = new Property(orderFixture);
   }
@@ -65,7 +67,9 @@ module('models/property', {
 
 test('`dependencies` returns hash of property dependencies', function(assert) {
   let expectedDependencies = {
-    useAlternateShippingAddress: ['streetAddress', 'city', 'state']
+    'streetAddress':  { 'useAlternateShippingAddress': [true] },
+    'city':           { 'useAlternateShippingAddress': true },
+    'state':          { 'useAlternateShippingAddress': true }
   };
 
   assert.deepEqual(property.dependencies, {}, 'root object has no dependencies');
@@ -97,8 +101,9 @@ test('`dependsOnProperties` returns the properties that depend on this property'
   let child = property.getChildProperty('shippingAddress');
   let master = child.getChildProperty('useAlternateShippingAddress');
   let dependent = child.getChildProperty('city');
+  let expected = [{ property: master, values: [true] }];
 
-  assert.deepEqual(dependent.dependsOnProperties, [master], 'master is included in dependsOnProperties list');
+  assert.deepEqual(dependent.dependsOnProperties, expected, 'master is included in dependsOnProperties list');
 });
 
 test('`isDependentProperty` returns true for properties that depend on other properties', function(assert) {
