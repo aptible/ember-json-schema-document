@@ -40,6 +40,14 @@ test('dump and toJSON return equal values', function(assert) {
   assert.deepEqual(toJSONResult, dumpResult);
 });
 
+test('serialize skips null and undefined values', function(assert) {
+  this.document.set('address.streetAddress', null);
+  this.document.set('address.city', 'San Diego');
+
+  let dumpResult = this.document.dump();
+  assert.deepEqual(dumpResult, { address: { city: 'San Diego' } });
+});
+
 skip('throw an error if calling `dump` when required fields are not specified');
 skip('handle array properties (where you have many of a given item)');
 skip('add validations when setting property types');
