@@ -156,9 +156,11 @@ export class ObjectDocument extends Document {
     let properties = Object.keys(data);
     for (let i = 0, l = properties.length; i < l; i++) {
       let propertyName = properties[i];
-
-      this.set(propertyName, data[propertyName]);
+      let proxy = this._valueProxyFor(propertyName);
+      proxy.value = data[propertyName];
     }
+
+    this._values.notifyPropertyChange('didLoad');
   }
 
   _valueProxyFor(path) {
