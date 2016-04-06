@@ -183,7 +183,7 @@ export class ObjectDocument extends Document {
     Ember.run(() => {
       let proxy = this._valueProxyFor(propertyPath);
       proxy.value = value;
-      this.values.notifyPropertyChange(propertyPath);
+      this.values.set(propertyPath, value);
     });
   }
 
