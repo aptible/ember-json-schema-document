@@ -1,10 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Object.extend({
-  _attrs: {},
   serialize() {
-    this._attrs = this.serializeHash(this);
-    return this._attrs;
+    return this.serializeHash(this);
   },
 
   serializeHash(hash) {

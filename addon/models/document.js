@@ -146,6 +146,7 @@ export class ObjectDocument extends Document {
     super(...arguments);
 
     this._valueProxies = Object.create(null);
+    this._propertyUpdate = 0;
 
     if (data) {
       this.load(data);
@@ -180,11 +181,16 @@ export class ObjectDocument extends Document {
       throw new Error('You must provide a value as the second argument to `.set`');
     }
 
-    Ember.run(() => {
-      let proxy = this._valueProxyFor(propertyPath);
-      proxy.value = value;
-      this.values.set(propertyPath, value);
-    });
+    let initialValue = this.values.get(propertyPath);
+    let proxy = this._valueProxyFor(propertyPath);
+    proxy.value = value;
+
+    if (initialValue !== value) {
+      Ember.run(() => {
+        this.values.set(propertyPath, value);
+        this.values.set('_propertyUpdate', this._propertyUpdate++);
+      });
+    }
   }
 
   get(propertyPath) {
