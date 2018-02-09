@@ -16,6 +16,7 @@ export default class Property {
     this._property = property;
     this._parentProperty = _parentProperty;
     this._schemaStack = _schemaStack;
+    this.visible = this._property._visible === false ? false : true;
   }
 
   get type() {
@@ -32,14 +33,6 @@ export default class Property {
 
   get readonly() {
     return this._property.readonly || false;
-  }
-
-  get visible() {
-    if (this._property._visible === false) {
-      return false;
-    }
-
-    return true;
   }
 
   get title() {

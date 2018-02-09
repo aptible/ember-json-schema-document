@@ -41,9 +41,7 @@ class ValueProxy {
       throw new Error('You may not set a nonexistant field.');
     }
 
-    Ember.run(() => {
-      Ember.set(this._values, this._valuePath, newValue);
-    });
+    Ember.set(this._values, this._valuePath, newValue);
   }
 
   get value() {

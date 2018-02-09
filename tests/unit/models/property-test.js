@@ -168,11 +168,12 @@ test('`readonly` returns false when undefined in schema', function(assert) {
 
 test('`visible` returns true by default', function(assert) {
   property = new Property({ 'type': 'string' });
-  assert.equal(property.visible, true, '`visible` is true by default');
+  debugger;
+  assert.equal(property.visable, true, '`visible` is true by default');
 });
 
 test('`visible` return false when set to false', function(assert) {
   property = new Property({ 'type': 'string', _visible: false });
-  assert.equal(property.visible, false, '`visible` is false when set');
+  assert.equal(property.visable, false, '`visible` is false when set');
 });
 
