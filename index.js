@@ -2,8 +2,5 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-json-schema-document',
-  isDevelopingAddon() {
-    return true;
-  }
+  name: 'ember-json-schema-document'
 };

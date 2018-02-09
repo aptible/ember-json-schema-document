@@ -16,7 +16,6 @@ export default class Property {
     this._property = property;
     this._parentProperty = _parentProperty;
     this._schemaStack = _schemaStack;
-    this.visible = this._property._visible === false ? false : true;
   }
 
   get type() {
