@@ -34,14 +34,6 @@ export default class Property {
     return this._property.readonly || false;
   }
 
-  get visible() {
-    if (this._property._visible === false) {
-      return false;
-    }
-
-    return true;
-  }
-
   get title() {
     return this._property.title;
   }
