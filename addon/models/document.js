@@ -178,7 +178,7 @@ export class ObjectDocument extends Document {
 
   set(propertyPath, value) {
     if (value === undefined) {
-      throw new Error('You must provide a value as the second argument to `.set`');
+      Ember.debug(`Passing 'undefined' value for prop ${propertyPath}`);
     }
 
     let initialValue = this.values.get(propertyPath);
