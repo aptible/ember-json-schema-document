@@ -1,0 +1,43 @@
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+env:
+  NODE_OPTIONS: --use-openssl-ca
+
+jobs:
+  test:
+    name: Test ${{ matrix.EMBER_TRY_SCENARIO }}
+    runs-on: ubuntu-20.04
+    strategy: 
+      matrix:
+        EMBER_TRY_SCENARIO: [default, ember-release, ember-beta, ember-canary]
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Add Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+          install-chromedriver: true
+          install-dependencies: true
+
+      - name: Install node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 8.9.4
+
+      - name: Setup
+        run: |
+          yarn global add ember-cli@2.13
+          yarn global add bower
+          yarn install
+          bower install
+
+      - name: Test
+        run: ember try ${{ matrix.EMBER_TRY_SCENARIO }} test
