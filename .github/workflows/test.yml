@@ -41,4 +41,7 @@ jobs:
           bower install
 
       - name: Test
-        run: ember try ${{ matrix.EMBER_TRY_SCENARIO }} test
+        run: |
+          echo "These tests do not work at present due to outdated code" \
+               "maybe try to fix them if you need to make changes in this repo?"
+          ember try ${{ matrix.EMBER_TRY_SCENARIO }} test
