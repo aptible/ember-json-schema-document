@@ -12,7 +12,8 @@ jobs:
   test:
     name: Test ${{ matrix.EMBER_TRY_SCENARIO }}
     runs-on: ubuntu-20.04
-    strategy: 
+    strategy:
+      fail-fast: false
       matrix:
         EMBER_TRY_SCENARIO: [default, ember-release, ember-beta, ember-canary]
 
